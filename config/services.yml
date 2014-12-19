@@ -1,0 +1,12 @@
+services:
+    marttiphpbb.templateevents.listener:
+        class: marttiphpbb\templateevents\event\main_listener
+        arguments:
+            - @auth
+            - @request
+            - @template
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: event.listener }

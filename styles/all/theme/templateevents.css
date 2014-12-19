@@ -1,0 +1,21 @@
+span.templateevents, span.templateevents-head, a.templateevents-hide, a.templateevents-show
+{
+    background-color: blue;
+    color: white;
+    border: 1px solid white;
+}
+
+span.templateevents-head
+{
+	background-color: violet;
+}
+
+a.templateevents-hide
+{
+	background-color: red;
+}
+
+a.templateevents-show
+{
+	background-color: green;
+}
