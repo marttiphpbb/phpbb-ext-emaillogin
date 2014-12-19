@@ -1,7 +1,7 @@
 {
 	"name": "marttiphpbb/templateevents",
 	"type": "phpbb-extension",
-	"description": "This extension shows all template events for developers",
+	"description": "This extension for developers shows all template events",
 	"homepage": "https://github.com/marttiphpbb/phpbb-ext-templateevents",
 	"version": "0.1.0",
 	"time": "2014-11-15",
