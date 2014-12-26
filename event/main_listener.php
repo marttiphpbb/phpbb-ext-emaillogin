@@ -86,20 +86,32 @@ class main_listener implements EventSubscriberInterface
 	
 	public function core_page_footer($event)
 	{
-		
-		if ($this->auth->acl_get('a_board'))
+		if ($this->auth->acl_get('a_'))
 		{
+			
+			$page_name = $this->user->page['page_name'];
+			$query_string = $this->user->page['query_string'];
+
+			$query_string = str_replace(array('&templateevents=1', '&templateevents=0'), '', $query_string);
+			$query_string = str_replace(array('templateevents=1', 'templateevents=0'), '', $query_string);
+			$query_string = trim($query_string, '&');
+			
 			$templateevents = ($this->request->variable('templateevents', 0)) ? true : false;
-			
-			
+
 			if ($templateevents)
-			{		
-				$this->template->assign_var('U_TEMPLATEEVENTS_HIDE', append_sid($this->phpbb_root_path . 'index.' . $this->php_ext, array('templateevents' => 0)));
+			{	
+				$query_string .= ($query_string) ? '&' : '';
+				$query_string .= 'templateevents=0';
+								
+				$this->template->assign_var('U_TEMPLATEEVENTS_HIDE', append_sid($page_name, $query_string));
 				$this->template->assign_var('S_TEMPLATEEVENTS', 1);
 			}
 			else
 			{
-				$this->template->assign_var('U_TEMPLATEEVENTS_SHOW', append_sid($this->phpbb_root_path . 'index.' . $this->php_ext, array('templateevents' => 1)));
+				$query_string .= ($query_string) ? '&' : '';
+				$query_string .= 'templateevents=1';
+				
+				$this->template->assign_var('U_TEMPLATEEVENTS_SHOW', append_sid($page_name, $query_string));
 			}
 		}
 	}
@@ -108,13 +120,24 @@ class main_listener implements EventSubscriberInterface
 	{
 		$params = $event['params'];
 		
-		if (!(isset($params['templateevents']) && is_array($params) && $params['templateevents'] === 0)
-			&& $this->request->variable('templateevents', 0)
-			&& $this->auth->acl_get('a_board'))
+		if (is_string($params))
 		{
-			if (is_string($params) && $params != '')
+			if (strpos($params, 'templateevents=0') !== false)
 			{
-				$params .= '&templateevents=1';
+				return;
+			}
+		}
+		
+		if ($this->request->variable('templateevents', 0)
+			&& $this->auth->acl_get('a_'))
+		{
+			if (is_string($params))
+			{
+				if ($params !== '')
+				{
+					$params .= '&';
+				}
+				$params .= 'templateevents=1';
 			}
 			else
 			{
