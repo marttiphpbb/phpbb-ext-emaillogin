@@ -1,6 +1,6 @@
 <?php
 /**
-*  phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb templateevents
 * @copyright (c) 2014 marttiphpbb <info@martti.be>
 * @license http://opensource.org/licenses/MIT
 */
@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
 * Event listener
 */
-class main_listener implements EventSubscriberInterface
+class listener implements EventSubscriberInterface
 {
 	/* @var auth */
 	protected $auth;
@@ -68,13 +68,14 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'		=> 'load_language_on_setup',
+			'core.user_setup'		=> 'core_user_setup',
 			'core.page_footer'		=> 'core_page_footer',
 			'core.append_sid'		=> 'core_append_sid',
+			'core.adm_page_footer'	=> 'core_page_footer', // same function for board and acp
 		);
 	}
 
-	public function load_language_on_setup($event)
+	public function core_user_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
