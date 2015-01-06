@@ -12,5 +12,4 @@ use phpbb\extension\base;
 class ext extends base
 {
 
-}	
-
+}

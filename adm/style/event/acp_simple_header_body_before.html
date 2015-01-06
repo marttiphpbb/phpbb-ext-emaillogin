@@ -1,1 +1,9 @@
-<!-- IF S_TEMPLATEEVENTS --><span class="templateevents">acp_simple_header_body_before</span><!-- ENDIF -->
+<!-- IF S_TEMPLATEEVENTS -->
+<a class="templateevents-hide" href="{U_TEMPLATEEVENTS_HIDE}">{L_TEMPLATEEVENTS_HIDE}</a>
+<span class="templateevents">acp_simple_header_head_append</span>
+<span class="templateevents">acp_simple_header_stylesheets_after</span>
+<span class="templateevents">acp_simple_header_body_before</span>
+<!-- ENDIF -->
+<!-- IF U_TEMPLATEEVENTS_SHOW -->
+<a class="templateevents-show" href="{U_TEMPLATEEVENTS_SHOW}">{L_TEMPLATEEVENTS_SHOW}</a>
+<!-- ENDIF -->

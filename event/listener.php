@@ -27,16 +27,16 @@ class listener implements EventSubscriberInterface
 
 	/* @var request */
 	protected $request;
-	
+
 	/* @var template */
 	protected $template;
-	
+
 	/* @var user */
-	protected $user;	
+	protected $user;
 
 	/* @var string */
 	protected $phpbb_root_path;
-	
+
 	/* @var string */
 	protected $php_ext;
 
@@ -56,7 +56,7 @@ class listener implements EventSubscriberInterface
 		$phpbb_root_path,
 		$php_ext
 	)
-	{	
+	{
 		$this->auth = $auth;
 		$this->request = $request;
 		$this->template = $template;
@@ -84,26 +84,26 @@ class listener implements EventSubscriberInterface
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
-	
+
 	public function core_page_footer($event)
 	{
 		if ($this->auth->acl_get('a_'))
 		{
-			
+
 			$page_name = $this->user->page['page_name'];
 			$query_string = $this->user->page['query_string'];
 
 			$query_string = str_replace(array('&templateevents=1', '&templateevents=0'), '', $query_string);
 			$query_string = str_replace(array('templateevents=1', 'templateevents=0'), '', $query_string);
 			$query_string = trim($query_string, '&');
-			
+
 			$templateevents = ($this->request->variable('templateevents', 0)) ? true : false;
 
 			if ($templateevents)
-			{	
+			{
 				$query_string .= ($query_string) ? '&' : '';
 				$query_string .= 'templateevents=0';
-								
+
 				$this->template->assign_var('U_TEMPLATEEVENTS_HIDE', append_sid($page_name, $query_string));
 				$this->template->assign_var('S_TEMPLATEEVENTS', 1);
 			}
@@ -111,16 +111,16 @@ class listener implements EventSubscriberInterface
 			{
 				$query_string .= ($query_string) ? '&' : '';
 				$query_string .= 'templateevents=1';
-				
+
 				$this->template->assign_var('U_TEMPLATEEVENTS_SHOW', append_sid($page_name, $query_string));
 			}
 		}
 	}
-	
+
 	public function core_append_sid($event)
 	{
 		$params = $event['params'];
-		
+
 		if (is_string($params))
 		{
 			if (strpos($params, 'templateevents=0') !== false)
@@ -128,7 +128,7 @@ class listener implements EventSubscriberInterface
 				return;
 			}
 		}
-		
+
 		if ($this->request->variable('templateevents', 0)
 			&& $this->auth->acl_get('a_'))
 		{
@@ -145,10 +145,10 @@ class listener implements EventSubscriberInterface
 				if ($params === false)
 				{
 					$params = array();
-				}		
-				$params['templateevents'] = 1;		
+				}
+				$params['templateevents'] = 1;
 			}
-			$event['params'] = $params;			
+			$event['params'] = $params;
 		}
 	}
 }
