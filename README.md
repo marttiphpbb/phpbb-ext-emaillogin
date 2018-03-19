@@ -1,4 +1,4 @@
-### phpBB 3.1 PhpBB Extension - marttiphpbb Template Events
+### PhpBB Extension - marttiphpbb Template Events
 
 This extension for developers shows all template events.
 
