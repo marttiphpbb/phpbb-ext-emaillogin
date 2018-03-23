@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "This extension for developers shows all template events (phpBB 3.2.2)",
 	"homepage": "https://github.com/marttiphpbb/phpbb-ext-templateevents",
-	"version": "1.0.9",
-	"time": "2018-03-19",
+	"version": "1.1.0",
+	"time": "2018-03-23",
 	"keywords": ["phpbb", "extension", "template", "events"],
 	"license": "GPL-2.0",
 	"authors": [{
@@ -14,7 +14,7 @@
 			"role": "Developer"
 		}],
 	"require": {
-		"php": ">=5.4"
+		"php": ">=7"
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master"
@@ -22,7 +22,7 @@
 	"extra": {
 		"display-name": "Template Events",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0"
+			"phpbb/phpbb": ">=3.2.0"
 		},
 		"version-check": {
 			"host": "marttiphpbb.github.io",
