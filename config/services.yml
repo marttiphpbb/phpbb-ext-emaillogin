@@ -2,11 +2,21 @@ services:
     marttiphpbb.templateevents.listener:
         class: marttiphpbb\templateevents\event\listener
         arguments:
-            - @auth
-            - @request
-            - @template
-            - @user
-            - %core.root_path%
-            - %core.php_ext%
+            - '@auth'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         tags:
             - { name: event.listener }
+
+    marttiphpbb.templateevents.twig.extension:
+        class: marttiphpbb\templateevents\twig\extension
+        arguments:
+            - '@request'
+            - '@user'
+            - '@template_context'
+            - '@language'
+        tags:
+            - { name: twig.extension }           

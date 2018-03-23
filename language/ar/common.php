@@ -32,7 +32,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-	'TEMPLATEEVENTS_SHOW'							=> 'عرض',
-	'TEMPLATEEVENTS_HIDE'							=> 'اخفاء',
-	'TEMPLATEEVENTS_INSIDE_HTML_HEAD'				=> '(ضمن ترويسة html)',
+	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'							=> 'عرض',
+	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'							=> 'اخفاء',
+	'MARTTIPHPBB_TEMPLATEEVENTS_INSIDE_HTML_HEAD'				=> 'ضمن ترويسة html',
 ));

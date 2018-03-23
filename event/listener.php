@@ -67,12 +67,10 @@ class listener implements EventSubscriberInterface
 
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.user_setup'		=> 'core_user_setup',
-			'core.page_footer'		=> 'core_page_footer',
 			'core.append_sid'		=> 'core_append_sid',
-			'core.adm_page_footer'	=> 'core_page_footer', // same function for board and acp
-		);
+		];
 	}
 
 	public function core_user_setup($event)
@@ -83,38 +81,6 @@ class listener implements EventSubscriberInterface
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
-	}
-
-	public function core_page_footer($event)
-	{
-		if ($this->auth->acl_get('a_'))
-		{
-
-			$page_name = $this->user->page['page_name'];
-			$query_string = $this->user->page['query_string'];
-
-			$query_string = str_replace(array('&templateevents=1', '&templateevents=0'), '', $query_string);
-			$query_string = str_replace(array('templateevents=1', 'templateevents=0'), '', $query_string);
-			$query_string = trim($query_string, '&');
-
-			$templateevents = ($this->request->variable('templateevents', 0)) ? true : false;
-
-			if ($templateevents)
-			{
-				$query_string .= ($query_string) ? '&' : '';
-				$query_string .= 'templateevents=0';
-
-				$this->template->assign_var('U_TEMPLATEEVENTS_HIDE', append_sid($page_name, $query_string));
-				$this->template->assign_var('S_TEMPLATEEVENTS', 1);
-			}
-			else
-			{
-				$query_string .= ($query_string) ? '&' : '';
-				$query_string .= 'templateevents=1';
-
-				$this->template->assign_var('U_TEMPLATEEVENTS_SHOW', append_sid($page_name, $query_string));
-			}
-		}
 	}
 
 	public function core_append_sid($event)
@@ -129,8 +95,7 @@ class listener implements EventSubscriberInterface
 			}
 		}
 
-		if ($this->request->variable('templateevents', 0)
-			&& $this->auth->acl_get('a_'))
+		if ($this->request->variable('templateevents', 0))
 		{
 			if (is_string($params))
 			{
