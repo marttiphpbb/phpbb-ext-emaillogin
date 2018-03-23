@@ -9,15 +9,19 @@ namespace marttiphpbb\templateevents\twig;
 
 use phpbb\request\request;
 use phpbb\user;
+use phpbb\language\language;
 
 
 class extension extends \Twig_Extension
 {
-	/** @var \phpbb\template\context */
-	private $context;
-
-	/** @var \phpbb\language\language */
+	/** @var language */
 	private $language;
+
+	/** @var request */
+	private $request;
+
+	/** @var user */
+	private $user;
 
 	/** @var bool */
 	private $html_body = false;
@@ -29,17 +33,14 @@ class extension extends \Twig_Extension
 	private $events_in_html_head = [];
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\template\context $context
-	* @param \phpbb\language\language $language
-	* @return \phpbb\template\twig\extension
+	* @param request
+	* @param user
+	* @param language
 	*/
-	public function __construct(request $request, user $user, \phpbb\template\context $context, $language)
+	public function __construct(request $request, user $user, language $language)
 	{
 		$this->request = $request;
 		$this->user = $user;
-		$this->context = $context;
 		$this->language = $language;
 	}
 

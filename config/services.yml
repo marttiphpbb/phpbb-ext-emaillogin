@@ -16,7 +16,6 @@ services:
         arguments:
             - '@request'
             - '@user'
-            - '@template_context'
             - '@language'
         tags:
             - { name: twig.extension }           
