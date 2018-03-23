@@ -1,13 +1,20 @@
 span.templateevents, span.templateevents-head, a.templateevents-hide, a.templateevents-show
 {
-    background-color: blue;
     color: white;
     border: 1px solid white;
+    padding: 2px;
+    margin: 2px;
+    border-radius: 4px;
+}
+
+span.templateevents
+{
+    background-color: purple;    
 }
 
 span.templateevents-head
 {
-	background-color: violet;
+	background-color: maroon;
 }
 
 a.templateevents-hide
