@@ -40,7 +40,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'							=> 'Afficher',
-	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'							=> 'Masquer',
-	'MARTTIPHPBB_TEMPLATEEVENTS_INSIDE_HTML_HEAD'				=> 'dans l’entête HTML',
+	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'					=> 'Afficher',
+	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'					=> 'Masquer',
+	'MARTTIPHPBB_TEMPLATEEVENTS_INSIDE_HTML_HEAD'		=> 'dans l’entête HTML',
 ));

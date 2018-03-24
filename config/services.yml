@@ -18,4 +18,20 @@ services:
             - '@user'
             - '@language'
         tags:
-            - { name: twig.extension }           
+            - { name: twig.extension }
+            
+    marttiphpbb.templateevents.console.scrape:
+        class: marttiphpbb\templateevents\console\scrape
+        arguments:
+            - '@user'
+            - '@cache.driver'
+        tags:
+            - { name: console.command }    
+
+    marttiphpbb.templateevents.console.verify:
+        class: marttiphpbb\templateevents\console\verify
+        arguments:
+            - '@user'
+            - '@cache.driver'
+        tags:
+            - { name: console.command }
