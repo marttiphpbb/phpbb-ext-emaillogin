@@ -7,62 +7,25 @@
 
 namespace marttiphpbb\templateevents\event;
 
-use phpbb\auth\auth;
-use phpbb\request\request;
-use phpbb\template\twig\twig as template;
-use phpbb\user;
-
-/**
-* @ignore
-*/
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use phpbb\request\request;
 
 /**
 * Event listener
 */
 class listener implements EventSubscriberInterface
 {
-	/* @var auth */
-	protected $auth;
-
 	/* @var request */
 	protected $request;
 
-	/* @var template */
-	protected $template;
-
-	/* @var user */
-	protected $user;
-
-	/* @var string */
-	protected $phpbb_root_path;
-
-	/* @var string */
-	protected $php_ext;
-
 	/**
-	 * @param auth $auth
 	 * @param request $request
-	 * @param template $template
-	 * @param user $user
-	 * @param string $phpbb_root_path
-	 * @param string $php_ext
 	*/
 	public function __construct(
-		auth $auth,
-		request $request,
-		template $template,
-		user $user,
-		$phpbb_root_path,
-		$php_ext
+		request $request
 	)
 	{
-		$this->auth = $auth;
 		$this->request = $request;
-		$this->template = $template;
-		$this->user = $user;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
 	}
 
 	static public function getSubscribedEvents()

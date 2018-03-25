@@ -2,12 +2,7 @@ services:
     marttiphpbb.templateevents.listener:
         class: marttiphpbb\templateevents\event\listener
         arguments:
-            - '@auth'
             - '@request'
-            - '@template'
-            - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
         tags:
             - { name: event.listener }
 

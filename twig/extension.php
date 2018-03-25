@@ -11,7 +11,6 @@ use phpbb\request\request;
 use phpbb\user;
 use phpbb\language\language;
 
-
 class extension extends \Twig_Extension
 {
 	/** @var language */
@@ -118,5 +117,3 @@ class extension extends \Twig_Extension
 		return sprintf('<a class="%s" href="%s">%s</a>', $class, $path, $lang);
 	}
 }
-
-
