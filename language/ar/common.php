@@ -32,7 +32,9 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'							=> 'عرض',
-	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'							=> 'اخفاء',
-	'MARTTIPHPBB_TEMPLATEEVENTS_INSIDE_HTML_HEAD'				=> 'ضمن ترويسة html',
+	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'					=> 'عرض',
+	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'					=> 'اخفاء',
+	'MARTTIPHPBB_TEMPLATEEVENTS_INSIDE_HTML_HEAD'		=> 'ضمن ترويسة html',
+	'MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME'			=> 'PHP Event',
+	'MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT'		=> 'Count',
 ));

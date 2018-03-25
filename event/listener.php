@@ -8,6 +8,7 @@
 namespace marttiphpbb\templateevents\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use phpbb\event\data as event;
 use phpbb\request\request;
 
 /**
@@ -36,7 +37,7 @@ class listener implements EventSubscriberInterface
 		];
 	}
 
-	public function core_user_setup($event)
+	public function core_user_setup(event $event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
@@ -46,7 +47,7 @@ class listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
-	public function core_append_sid($event)
+	public function core_append_sid(event $event)
 	{
 		$params = $event['params'];
 

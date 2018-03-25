@@ -26,3 +26,21 @@ a.templateevents-show
 {
 	background-color: green;
 }
+
+table.marttiphpbb-templateevents-php
+{
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin: 10px;
+    font-size: 15px;    
+}
+
+table.marttiphpbb-templateevents-php tbody tr:nth-child(odd) 
+{
+    background: lightgrey;
+}
+
+table.marttiphpbb-templateevents-php th, table.marttiphpbb-templateevents-php td
+{
+    padding: 5px;
+}

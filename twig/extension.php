@@ -10,6 +10,7 @@ namespace marttiphpbb\templateevents\twig;
 use phpbb\request\request;
 use phpbb\user;
 use phpbb\language\language;
+use marttiphpbb\templateevents\event\php_event_listener;
 
 class extension extends \Twig_Extension
 {
@@ -21,6 +22,8 @@ class extension extends \Twig_Extension
 
 	/** @var user */
 	private $user;
+
+	/** @var php_event_listener */
 
 	/** @var bool */
 	private $html_body = false;
@@ -35,12 +38,14 @@ class extension extends \Twig_Extension
 	* @param request
 	* @param user
 	* @param language
+	* @param php_event_listener
 	*/
-	public function __construct(request $request, user $user, language $language)
+	public function __construct(request $request, user $user, language $language, php_event_listener $php_event_listener)
 	{
 		$this->request = $request;
 		$this->user = $user;
 		$this->language = $language;
+		$this->php_event_listener = $php_event_listener;
 	}
 
 	/**
@@ -53,18 +58,20 @@ class extension extends \Twig_Extension
 		);
 	}
 
-	public function marttiphpbb_templateevents_render(string $event_file, bool $first_event_in_html_body = false)
+	public function marttiphpbb_templateevents_render(string $event_file, bool $first_and_last_in_html_body = false)
 	{
 		$event_name = explode('.', explode('/', $event_file)[2])[0];
 		$template = '';
 
 		if (!$this->html_body)
 		{
-			if (!$first_event_in_html_body)
+			if (!$first_and_last_in_html_body)
 			{
 				$this->events_in_html_head[] = $event_name;
 				return;
 			}
+
+			$first_and_last_in_html_body = false;
 
 			$template .= $this->get_show_hide_button();
 
@@ -84,6 +91,11 @@ class extension extends \Twig_Extension
 		if ($this->render)
 		{
 			$template .= sprintf('<span class="templateevents">%s</span>', $event_name);
+
+			if ($first_and_last_in_html_body)
+			{
+				$template .= $this->render_php_events();
+			}
 		}
 
 		return $template;
@@ -115,5 +127,29 @@ class extension extends \Twig_Extension
 		}
 		
 		return sprintf('<a class="%s" href="%s">%s</a>', $class, $path, $lang);
+	}
+
+	private function render_php_events()
+	{
+		$template = '<br><table class="marttiphpbb-templateevents-php"><thead><tr><th>';
+		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME');
+		$template .= '</th><th>';
+		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT');
+		$template .= '</th></tr></thead><tbody>';
+
+		$php_event_count_ary = $this->php_event_listener->get_count_ary();
+
+		foreach ($php_event_count_ary as $name => $count)
+		{
+			$template .= '<tr><td>';
+			$template .= $name;
+			$template .= '</td><td>';
+			$template .= $count;
+			$template .= '</td>';
+		}
+
+		$template .= '</tbody></table>';
+
+		return $template;
 	}
 }
