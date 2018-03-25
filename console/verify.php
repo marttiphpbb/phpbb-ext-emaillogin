@@ -21,12 +21,23 @@ use Symfony\Component\Finder\Finder;
 class verify extends command
 {
 	const TEMPLATE = "{{- marttiphpbb_templateevents_render(_self) -}}\n";
-	const TEMPLATE_FIRST_IN_BODY = "{{- marttiphpbb_templateevents_render(_self, true) -}}\n{%- INCLUDECSS '@marttiphpbb_templateevents/templateevents.css' -%}\n";
-	const FIRST_IN_BODY = [
+	const TEMPLATE_FIRST_AND_LAST_IN_BODY = "{{- marttiphpbb_templateevents_render(_self, true) -}}\n";
+	const TEMPLATE_CSS = "{%- INCLUDECSS '@marttiphpbb_templateevents/templateevents.css' -%}\n";
+	const FIRST_AND_LAST_IN_BODY = [
 		'overall_header_body_before'		=> true,
 		'simple_header_body_before'			=> true,
 		'acp_overall_header_body_before'	=> true,
 		'acp_simple_header_body_before'		=> true,
+		'overall_footer_body_after'			=> true,
+		'simple_footer_after'				=> true,
+		'acp_overall_footer_after'			=> true,
+		'acp_simple_footer_after'			=> true,
+	];
+	const CSS = [
+		'overall_header_head_append'		=> true,
+		'simple_header_head_append'			=> true,
+		'acp_overall_header_head_append'	=> true,
+		'acp_simple_header_head_append'		=> true,
 	];
 	const EVENTS_TYPE_LANG = [
 		'template'		=> 'template events',
@@ -167,7 +178,7 @@ class verify extends command
 			{
 				foreach ($to_add as $name)
 				{
-					$str = self::FIRST_IN_BODY[$name] ? self::TEMPLATE_FIRST_IN_BODY : self::TEMPLATE;
+					$str = $this->get_template($name);
 					file_put_contents($dir . '/' . $name . '.html', $str);
 					$io->writeln('<info>write: </><add>' . $name . '</>');				
 				}
@@ -199,7 +210,7 @@ class verify extends command
 		foreach ($ev_files as $name)
 		{
 			$filename = $dir . '/' . $name . '.html';
-			$str = self::FIRST_IN_BODY[$name] ? self::TEMPLATE_FIRST_IN_BODY : self::TEMPLATE;
+			$str = $this->get_template($name);
 			$str_check = file_get_contents($filename);
 
 			if ($str !== $str_check)
@@ -222,5 +233,12 @@ class verify extends command
 		{
 			$io->writeln('<comment>No invalid content found.</>');
 		}
+	}
+
+	private function get_template(string $name):string
+	{
+		$str = isset(self::FIRST_AND_LAST_IN_BODY[$name]) ? self::TEMPLATE_FIRST_AND_LAST_IN_BODY : self::TEMPLATE;
+		$str .= isset(self::CSS[$name]) ? self::TEMPLATE_CSS : '';
+		return $str;
 	}
 }

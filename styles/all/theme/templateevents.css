@@ -32,7 +32,9 @@ table.marttiphpbb-templateevents-php
     border-collapse: collapse;
     border: 1px solid black;
     margin: 10px;
-    font-size: 15px;    
+    font-size: 15px;  
+    color: black; 
+    background: white;
 }
 
 table.marttiphpbb-templateevents-php tbody tr:nth-child(odd) 
