@@ -11,6 +11,11 @@ services:
         tags:
             - { name: event.listener }            
 
+    marttiphpbb.templateevents.service.events_cache:
+        class: marttiphpbb\templateevents\service\events_cache
+        arguments:
+            - '@cache.driver'
+
     marttiphpbb.templateevents.twig.extension:
         class: marttiphpbb\templateevents\twig\extension
         arguments:
@@ -18,6 +23,7 @@ services:
             - '@user'
             - '@language'
             - '@marttiphpbb.templateevents.php_event_listener'
+            - '@marttiphpbb.templateevents.service.events_cache'
         tags:
             - { name: twig.extension }
             

@@ -11,6 +11,7 @@ use phpbb\request\request;
 use phpbb\user;
 use phpbb\language\language;
 use marttiphpbb\templateevents\event\php_event_listener;
+use marttiphpbb\templateevents\service\events_cache;
 
 class extension extends \Twig_Extension
 {
@@ -24,6 +25,10 @@ class extension extends \Twig_Extension
 	private $user;
 
 	/** @var php_event_listener */
+	private $php_event_listener;
+
+	/** @var events_cache */
+	private $events_cache;
 
 	/** @var bool */
 	private $html_body = false;
@@ -39,13 +44,21 @@ class extension extends \Twig_Extension
 	* @param user
 	* @param language
 	* @param php_event_listener
+	* @param events_cache
 	*/
-	public function __construct(request $request, user $user, language $language, php_event_listener $php_event_listener)
+	public function __construct(
+		request $request, 
+		user $user, 
+		language $language, 
+		php_event_listener $php_event_listener, 
+		events_cache $events_cache
+	)
 	{
 		$this->request = $request;
 		$this->user = $user;
 		$this->language = $language;
 		$this->php_event_listener = $php_event_listener;
+		$this->events_cache = $events_cache;
 	}
 
 	/**
@@ -63,11 +76,18 @@ class extension extends \Twig_Extension
 		$event_name = explode('.', explode('/', $event_file)[2])[0];
 		$template = '';
 
+		$event_type = strpos($event_name, 'acp_') === 0 ? 'template_acp' : 'template';
+		$event_data = $this->events_cache->get($event_type, $event_name);
+
 		if (!$this->html_body)
 		{
 			if (!$first_and_last_in_html_body)
 			{
-				$this->events_in_html_head[] = $event_name;
+				$this->events_in_html_head[] = [
+					'name'	=> $event_name,
+					'since'	=> $event_data['since'],
+					'file'	=> $event_data['file'],			
+				];
 				return;
 			}
 
@@ -81,16 +101,16 @@ class extension extends \Twig_Extension
 
 			if ($this->render)
 			{
-				foreach ($this->events_in_html_head as $name)
+				foreach ($this->events_in_html_head as $e)
 				{
-					$template .= sprintf('<span class="templateevents-head">%s</span>', $name);
+					$template .= sprintf('<span class="templateevents-head" title="%s&#10;%s">%s</span>', $e['since'], $e['file'], $e['name']);
 				}
 			}
 		}
 
 		if ($this->render)
 		{
-			$template .= sprintf('<span class="templateevents">%s</span>', $event_name);
+			$template .= sprintf('<span class="templateevents" title="%s&#10;%s">%s</span>', $event_data['since'], $event_data['file'], $event_name);
 
 			if ($first_and_last_in_html_body)
 			{
@@ -135,16 +155,26 @@ class extension extends \Twig_Extension
 		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME');
 		$template .= '</th><th>';
 		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT');
+		$template .= '</th><th>';
+		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_SINCE');
+		$template .= '</th><th>';
+		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_FILENAME');		
 		$template .= '</th></tr></thead><tbody>';
 
 		$php_event_count_ary = $this->php_event_listener->get_count_ary();
 
 		foreach ($php_event_count_ary as $name => $count)
 		{
+			$ev = $this->events_cache->get('php', $name);
+
 			$template .= '<tr><td>';
 			$template .= $name;
 			$template .= '</td><td>';
 			$template .= $count;
+			$template .= '</td><td>';
+			$template .= $ev['since'];
+			$template .= '</td><td>';
+			$template .= $ev['file'];
 			$template .= '</td>';
 		}
 
