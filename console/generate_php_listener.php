@@ -15,8 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
-use phpbb\cache\driver\driver_interface as cache;
-use Symfony\Component\Finder\Finder;
+use marttiphpbb\templateevents\service\events_cache;
 
 class generate_php_listener extends command
 {
@@ -24,7 +23,9 @@ class generate_php_listener extends command
 <?php
 /**
 * phpBB Extension - marttiphpbb templateevents
-* Generated file from command ext-templateevents:generate-php-listener
+* @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
+* @license GNU General Public License, version 2 (GPL-2.0)
+* This file was generated with the ext-templateevents:generate-php-listener command
 */
 
 namespace marttiphpbb\templateevents\event;
@@ -63,19 +64,12 @@ class php_event_listener implements EventSubscriberInterface
 }
 EOT;
 
-	const TEMPLATE_FUNC = <<<'EOT'
+	/** @var events_cache */
+	private $events_cache;
 
-public function %name%(event $event)
-
-
-EOT;
-
-	/** @var cache */
-	private $cache;
-
-	public function __construct(user $user, cache $cache)
+	public function __construct(user $user, events_cache $events_cache)
 	{
-		$this->cache = $cache;
+		$this->events_cache = $events_cache;
 		parent::__construct($user);
 	}
 
@@ -106,7 +100,7 @@ EOT;
 	
 		$force = $input->getOption('force');
 
-		$events = $this->cache->get('_marttiphpbb_templateevents_events');
+		$events = $this->events_cache->get_all();
 
 		if (!$events)
 		{

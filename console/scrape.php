@@ -14,17 +14,17 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
-use phpbb\cache\driver\driver_interface as cache;
+use marttiphpbb\templateevents\service\events_cache;
 use Goutte\Client;
 
 class scrape extends command
 {
-	/** @var cache */
-	private $cache;
+	/** @var events_cache */
+	private $events_cache;
 
-	public function __construct(user $user, cache $cache)
+	public function __construct(user $user, events_cache $events_cache)
 	{
-		$this->cache = $cache;
+		$this->events_cache = $events_cache;
 		parent::__construct($user);
 	}
 
@@ -105,7 +105,7 @@ class scrape extends command
 			];
 		}	
 
-		$this->cache->put('_marttiphpbb_templateevents_events', $events);
+		$this->events_cache->set_all($events);
 
 		$io->writeln([
 			'', 

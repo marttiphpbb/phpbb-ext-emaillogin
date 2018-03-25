@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
-use phpbb\cache\driver\driver_interface as cache;
+use marttiphpbb\templateevents\service\events_cache;
 use Symfony\Component\Finder\Finder;
 
 class verify extends command
@@ -45,12 +45,12 @@ class verify extends command
 		'php'			=> 'php events',
 	];
 
-	/** @var cache */
-	private $cache;
+	/** @var events_cache */
+	private $events_cache;
 
-	public function __construct(user $user, cache $cache)
+	public function __construct(user $user, events_cache $events_cache)
 	{
-		$this->cache = $cache;
+		$this->events_cache = $events_cache;
 		parent::__construct($user);
 	}
 
@@ -82,9 +82,6 @@ class verify extends command
 		$outputStyle = new OutputFormatterStyle('white', 'black', ['bold']);
 		$output->getFormatter()->setStyle('v', $outputStyle);
 	
-		$outputStyle = new OutputFormatterStyle('white', 'green', ['bold']);
-		$output->getFormatter()->setStyle('add', $outputStyle);
-	
 		$outputStyle = new OutputFormatterStyle('white', 'red', ['bold']);
 		$output->getFormatter()->setStyle('del', $outputStyle);
 
@@ -102,7 +99,7 @@ class verify extends command
 			return;
 		}
 
-		$events = $this->cache->get('_marttiphpbb_templateevents_events');
+		$events = $this->events_cache->get_all();
 
 		if (!$events)
 		{
@@ -180,14 +177,14 @@ class verify extends command
 				{
 					$str = $this->get_template($name);
 					file_put_contents($dir . '/' . $name . '.html', $str);
-					$io->writeln('<info>write: </><add>' . $name . '</>');				
+					$io->writeln('<info>write: </><v>' . $name . '</>');				
 				}
 			}
 			else
 			{
 				foreach ($to_add as $name)
 				{
-					$io->writeln('<comment>file to add to ext: </><add>' . $name . '</>');
+					$io->writeln('<comment>file to add to ext: </><v>' . $name . '</>');
 				}			
 			}
 

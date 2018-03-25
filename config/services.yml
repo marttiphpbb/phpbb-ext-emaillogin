@@ -31,7 +31,7 @@ services:
         class: marttiphpbb\templateevents\console\scrape
         arguments:
             - '@user'
-            - '@cache.driver'
+            - '@marttiphpbb.templateevents.service.events_cache'
         tags:
             - { name: console.command }    
 
@@ -39,7 +39,7 @@ services:
         class: marttiphpbb\templateevents\console\verify
         arguments:
             - '@user'
-            - '@cache.driver'
+            - '@marttiphpbb.templateevents.service.events_cache'
         tags:
             - { name: console.command }
 
@@ -47,7 +47,7 @@ services:
         class: marttiphpbb\templateevents\console\generate_php_listener
         arguments:
             - '@user'
-            - '@cache.driver'
+            - '@marttiphpbb.templateevents.service.events_cache'
         tags:
             - { name: console.command }
 
@@ -55,6 +55,6 @@ services:
         class: marttiphpbb\templateevents\console\write
         arguments:
             - '@user'
-            - '@cache.driver'
+            - '@marttiphpbb.templateevents.service.events_cache'
         tags:
             - { name: console.command }

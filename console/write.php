@@ -15,19 +15,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
-use phpbb\cache\driver\driver_interface as cache;
-use Symfony\Component\Finder\Finder;
+use marttiphpbb\templateevents\service\events_cache;
 
 class write extends command
 {
+	/** @var events_cache */
+	private $events_cache;
 
-
-	/** @var cache */
-	private $cache;
-
-	public function __construct(user $user, cache $cache)
+	public function __construct(user $user, events_cache $events_cache)
 	{
-		$this->cache = $cache;
+		$this->events_cache = $events_cache;
 		parent::__construct($user);
 	}
 
@@ -55,16 +52,12 @@ class write extends command
 		$outputStyle = new OutputFormatterStyle('white', 'black', ['bold']);
 		$output->getFormatter()->setStyle('v', $outputStyle);
 
-		$events = $this->cache->get('_marttiphpbb_templateevents_events');
-
-		if (!$events)
+		if ($this->events_cache->write_file())
 		{
-			$io->writeln('<info>no events were found in cache.</>');
+			$io->writeln('<info>file written: </><v>events_data.json</>');
 			return;
 		}
 
-		file_put_contents(__DIR__ . '/../events_data.json', json_encode($events, JSON_PRETTY_PRINT));
-
-		$io->writeln('<info>file written: </><v>events_data.json</>');
+		$io->writeln('<info>no events were found in cache.</>');
 	}
 }
