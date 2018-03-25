@@ -44,3 +44,11 @@ services:
             - '@cache.driver'
         tags:
             - { name: console.command }
+
+    marttiphpbb.templateevents.console.write:
+        class: marttiphpbb\templateevents\console\write
+        arguments:
+            - '@user'
+            - '@cache.driver'
+        tags:
+            - { name: console.command }
