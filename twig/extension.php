@@ -158,7 +158,9 @@ class extension extends \Twig_Extension
 		$template .= '</th><th>';
 		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_SINCE');
 		$template .= '</th><th>';
-		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_FILENAME');		
+		$template .= $this->language->lang('MARTTIPHPBB_TEMPLATEEVENTS_FILENAME');	
+//		$template .= '</th><th>';
+//		$template .= 'Vars';	
 		$template .= '</th></tr></thead><tbody>';
 
 		$php_event_count_ary = $this->php_event_listener->get_count_ary();
@@ -175,6 +177,8 @@ class extension extends \Twig_Extension
 			$template .= $ev['since'];
 			$template .= '</td><td>';
 			$template .= $ev['file'];
+//			$template .= '</td><td>';
+//			$template .= $ev['vars'];
 			$template .= '</td>';
 		}
 
