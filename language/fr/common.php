@@ -20,7 +20,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -39,7 +39,7 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'					=> 'Afficher',
 	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'					=> 'Masquer',
 	'MARTTIPHPBB_TEMPLATEEVENTS_INSIDE_HTML_HEAD'		=> 'dans l’entête HTML',
@@ -47,4 +47,4 @@ $lang = array_merge($lang, array(
 	'MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT'		=> 'Count',
 	'MARTTIPHPBB_TEMPLATEEVENTS_SINCE'					=> 'Since',
 	'MARTTIPHPBB_TEMPLATEEVENTS_FILENAME'				=> 'Filename',
-));
+]);

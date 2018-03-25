@@ -15,7 +15,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -30,7 +30,7 @@ if (empty($lang) || !is_array($lang))
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 
 	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'					=> 'عرض',
 	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'					=> 'اخفاء',
@@ -39,4 +39,4 @@ $lang = array_merge($lang, array(
 	'MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT'		=> 'Count',
 	'MARTTIPHPBB_TEMPLATEEVENTS_SINCE'					=> 'Since',
 	'MARTTIPHPBB_TEMPLATEEVENTS_FILENAME'				=> 'Filename',
-));
+]);

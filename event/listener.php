@@ -40,10 +40,12 @@ class listener implements EventSubscriberInterface
 	public function core_user_setup(event $event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
+
+		$lang_set_ext[] = [
 			'ext_name' => 'marttiphpbb/templateevents',
 			'lang_set' => 'common',
-		);
+		];
+
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
@@ -67,16 +69,19 @@ class listener implements EventSubscriberInterface
 				{
 					$params .= '&';
 				}
+
 				$params .= 'templateevents=1';
 			}
 			else
 			{
 				if ($params === false)
 				{
-					$params = array();
+					$params = [];
 				}
+
 				$params['templateevents'] = 1;
 			}
+
 			$event['params'] = $params;
 		}
 	}

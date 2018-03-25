@@ -66,9 +66,9 @@ class extension extends \Twig_Extension
 	*/
 	public function getFunctions()
 	{
-		return array(
+		return [
 			new \Twig_SimpleFunction('marttiphpbb_templateevents_render', [$this, 'marttiphpbb_templateevents_render']),
-		);
+		];
 	}
 
 	public function marttiphpbb_templateevents_render(string $event_file, bool $first_and_last_in_html_body = false)
