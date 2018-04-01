@@ -1,6 +1,6 @@
 # PhpBB Extension - marttiphpbb Template Events
 
-This extension for developers shows all core template events. Since version 1.3.0 also the core PHP events that were triggered for the current request are shown at the bottom of the page.
+This phpBB extension for developers shows all core template events at their location in the board. Also the core PHP events that were triggered for the current request are shown at the bottom of the page. All template and PHP events are linked to their location in the [phpBB/phpBB github repository](https://github.com/phpbb/phpbb) so their context can be easily reviewed.
 
 **This extension is a helper tool for developing other extenstions. It should not be used on a live forum.**
 
