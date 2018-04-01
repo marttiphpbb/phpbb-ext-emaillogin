@@ -12,9 +12,12 @@ use phpbb\user;
 use phpbb\language\language;
 use marttiphpbb\templateevents\event\php_event_listener;
 use marttiphpbb\templateevents\service\events_cache;
+use marttiphpbb\templateevents\model\file_location;
 
 class extension extends \Twig_Extension
 {
+	const LINK_BASE = 'https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/';
+
 	/** @var language */
 	private $language;
 
@@ -86,7 +89,7 @@ class extension extends \Twig_Extension
 				$this->events_in_html_head[] = [
 					'name'	=> $event_name,
 					'since'	=> $event_data['since'],
-					'file'	=> $event_data['file'],			
+					'loc'	=> $event_data['loc'],			
 				];
 				return;
 			}
@@ -103,20 +106,51 @@ class extension extends \Twig_Extension
 			{
 				foreach ($this->events_in_html_head as $e)
 				{
-					$template .= sprintf('<span class="templateevents-head" title="%s&#10;%s">%s</span>', $e['since'], $e['file'], $e['name']);
+					$template .= $this->render_template_event($event_type, $e['name'], $e, true);
 				}
 			}
 		}
 
 		if ($this->render)
 		{
-			$template .= sprintf('<span class="templateevents" title="%s&#10;%s">%s</span>', $event_data['since'], $event_data['file'], $event_name);
+			$template .= $this->render_template_event($event_type, $event_name, $event_data);
 
 			if ($first_and_last_in_html_body)
 			{
 				$template .= $this->render_php_events();
 			}
 		}
+
+		return $template;
+	}
+
+	private function render_template_event(string $type, string $name, array $data, bool $in_html_head = false):string
+	{
+		$link_base = self::LINK_BASE . file_location::DIRECTORY[$type];
+		$link = reset($data['loc']);
+
+		if (count($data['loc']) > 1)
+		{
+			list($script_name) = explode('.', $this->user->page['page_name']);
+
+			while (strpos(key($data['loc']), $script_name) !== 0 && $link !== false) 
+			{
+				$link = next($data['loc']);
+			}
+		}
+
+		if ($link)
+		{
+			$link = $link_base . key($data['loc']) . '#L' . $link;
+		}		
+
+		$files = implode(', ', array_keys($data['loc']));
+
+		$template = '<span class="templateevents';
+		$template .= $in_html_head ? '-head' : '';
+		$template .= '" title="' . $data['since'] . '&#10;' . $files . '">';
+		$template .= $link ? '<a href="' . $link . '">' . $name . '</a>' : $name;
+		$template .= '</span>';
 
 		return $template;
 	}
@@ -165,9 +199,26 @@ class extension extends \Twig_Extension
 
 		$php_event_count_ary = $this->php_event_listener->get_count_ary();
 
+		$link_base = self::LINK_BASE . file_location::DIRECTORY['php'];
+
 		foreach ($php_event_count_ary as $name => $count)
 		{
 			$ev = $this->events_cache->get('php', $name);
+
+			$files = [];
+
+			foreach ($ev['loc'] as $file => $line)
+			{
+				if ($line)
+				{
+					$files[] = '<a href="' . $link_base . $file . '#L' . $line . '">' . $file . '</a>';
+					continue;
+				}
+
+				$files[] = $file;
+			}
+
+			$files = implode('<br>', $files);
 
 			$template .= '<tr><td>';
 			$template .= $name;
@@ -176,7 +227,7 @@ class extension extends \Twig_Extension
 			$template .= '</td><td>';
 			$template .= $ev['since'];
 			$template .= '</td><td>';
-			$template .= $ev['file'];
+			$template .= $files;
 //			$template .= '</td><td>';
 //			$template .= $ev['vars'];
 			$template .= '</td>';

@@ -23,7 +23,14 @@ class ext extends base
 	{
 		switch ($old_state)
 		{
-            case '':
+			case '':
+				$cache = $this->container->get('cache.driver');
+				$events_cache = new events_cache($cache);
+				$events_cache->refresh();	
+				return 'refresh_events_cache';
+				break;	
+		
+            case 'refresh_events_cache':
                 // If phpBB was following a Post-Redirect-Get pattern then this was not necessary.
                 // To circumvent phpBB not redirecting after enabling the extension
                 // and failing to add the new Twig Extension it's add here in order to prevent
@@ -39,10 +46,11 @@ class ext extends base
                 $twig->addExtension($twig_extension);
                 $language->add_lang('common', 'marttiphpbb/templateevents');
 				return 'add_twig_extension';
-			break;
+				break;
+
 			default:
 				return parent::enable_step($old_state);
-			break;
+				break;
 		}
 	}
 

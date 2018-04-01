@@ -7,6 +7,11 @@ span.templateevents, span.templateevents-head, a.templateevents-hide, a.template
     border-radius: 5px;
 }
 
+span.templateevents a, span.templateevents-head a
+{
+    color: white;
+}
+
 span.templateevents
 {
     background-color: purple;    
