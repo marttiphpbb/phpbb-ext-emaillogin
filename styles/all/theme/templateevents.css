@@ -1,13 +1,25 @@
 span.templateevents, span.templateevents-head, a.templateevents-hide, a.templateevents-show
 {
-    background-color: blue;
     color: white;
     border: 1px solid white;
+    padding: 2px;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+span.templateevents a, span.templateevents-head a
+{
+    color: white;
+}
+
+span.templateevents
+{
+    background-color: purple;    
 }
 
 span.templateevents-head
 {
-	background-color: violet;
+	background-color: maroon;
 }
 
 a.templateevents-hide
@@ -18,4 +30,24 @@ a.templateevents-hide
 a.templateevents-show
 {
 	background-color: green;
+}
+
+table.marttiphpbb-templateevents-php
+{
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin: 10px;
+    font-size: 15px;  
+    color: black; 
+    background: white;
+}
+
+table.marttiphpbb-templateevents-php tbody tr:nth-child(odd) 
+{
+    background: lightgrey;
+}
+
+table.marttiphpbb-templateevents-php th, table.marttiphpbb-templateevents-php td
+{
+    padding: 5px;
 }

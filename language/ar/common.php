@@ -2,7 +2,7 @@
 
 /**
 *  phpBB Extension - marttiphpbb templateevents
-* @copyright (c) 2014 marttiphpbb <info@martti.be>
+* @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 * Translated By : Basil Taha Alhitary - www.alhitary.net
@@ -15,7 +15,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -30,9 +30,13 @@ if (empty($lang) || !is_array($lang))
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 
-	'TEMPLATEEVENTS_SHOW'							=> 'عرض',
-	'TEMPLATEEVENTS_HIDE'							=> 'اخفاء',
-	'TEMPLATEEVENTS_INSIDE_HTML_HEAD'				=> '(ضمن ترويسة html)',
-));
+	'MARTTIPHPBB_TEMPLATEEVENTS_SHOW'					=> 'عرض',
+	'MARTTIPHPBB_TEMPLATEEVENTS_HIDE'					=> 'اخفاء',
+	'MARTTIPHPBB_TEMPLATEEVENTS_INSIDE_HTML_HEAD'		=> 'ضمن ترويسة html',
+	'MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME'			=> 'PHP Event',
+	'MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT'		=> 'Count',
+	'MARTTIPHPBB_TEMPLATEEVENTS_SINCE'					=> 'Since',
+	'MARTTIPHPBB_TEMPLATEEVENTS_FILENAME'				=> 'Filename',
+]);

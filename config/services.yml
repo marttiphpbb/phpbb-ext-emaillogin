@@ -2,11 +2,59 @@ services:
     marttiphpbb.templateevents.listener:
         class: marttiphpbb\templateevents\event\listener
         arguments:
-            - @auth
-            - @request
-            - @template
-            - @user
-            - %core.root_path%
-            - %core.php_ext%
+            - '@request'
         tags:
             - { name: event.listener }
+
+    marttiphpbb.templateevents.php_event_listener:
+        class: marttiphpbb\templateevents\event\php_event_listener
+        tags:
+            - { name: event.listener }            
+
+    marttiphpbb.templateevents.service.events_cache:
+        class: marttiphpbb\templateevents\service\events_cache
+        arguments:
+            - '@cache.driver'
+
+    marttiphpbb.templateevents.twig.extension:
+        class: marttiphpbb\templateevents\twig\extension
+        arguments:
+            - '@request'
+            - '@user'
+            - '@language'
+            - '@marttiphpbb.templateevents.php_event_listener'
+            - '@marttiphpbb.templateevents.service.events_cache'
+        tags:
+            - { name: twig.extension }
+            
+    marttiphpbb.templateevents.console.scrape:
+        class: marttiphpbb\templateevents\console\scrape
+        arguments:
+            - '@user'
+            - '@marttiphpbb.templateevents.service.events_cache'
+        tags:
+            - { name: console.command }    
+
+    marttiphpbb.templateevents.console.verify:
+        class: marttiphpbb\templateevents\console\verify
+        arguments:
+            - '@user'
+            - '@marttiphpbb.templateevents.service.events_cache'
+        tags:
+            - { name: console.command }
+
+    marttiphpbb.templateevents.console.generate_php_listener:
+        class: marttiphpbb\templateevents\console\generate_php_listener
+        arguments:
+            - '@user'
+            - '@marttiphpbb.templateevents.service.events_cache'
+        tags:
+            - { name: console.command }
+
+    marttiphpbb.templateevents.console.write:
+        class: marttiphpbb\templateevents\console\write
+        arguments:
+            - '@user'
+            - '@marttiphpbb.templateevents.service.events_cache'
+        tags:
+            - { name: console.command }
