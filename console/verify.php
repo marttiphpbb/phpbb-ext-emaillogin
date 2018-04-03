@@ -17,6 +17,7 @@ use phpbb\console\command\command;
 use phpbb\user;
 use marttiphpbb\templateevents\service\events_cache;
 use Symfony\Component\Finder\Finder;
+use marttiphpbb\templateevents\model\template;
 
 class verify extends command
 {
@@ -61,9 +62,9 @@ class verify extends command
 	{
 		$this
 			->setName('ext-templateevents:verify')
-			->setDescription('Verify current events in this extension against cache (use ext-templateevents:scrape first).')
+			->setDescription('For Development: Verify current events in this extension against cache.')
 			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')
-			->addArgument('type', InputArgument::OPTIONAL, 'template (default), acp or php')
+			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
 			->addOption('force', 'f', InputOption::VALUE_NONE, 'Force update of files.')
 			->addOption('content', 'c', InputOption::VALUE_NONE, 'Verify content of files.')
 			->addOption('list', 'l', InputOption::VALUE_NONE, 'List files & size.')		

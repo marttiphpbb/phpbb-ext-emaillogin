@@ -17,7 +17,7 @@ use phpbb\console\command\command;
 use phpbb\user;
 use marttiphpbb\templateevents\service\events_cache;
 
-class generate_php_listener extends command
+class generate extends command
 {
 	const TEMPLATE_FILE = <<<'EOT'
 <?php
@@ -79,10 +79,11 @@ EOT;
 	protected function configure()
 	{
 		$this
-			->setName('ext-templateevents:generate-php-listener')
-			->setDescription('Generate the php_event_listener file from cache (use ext-templateevents:scrape first).')
+			->setName('ext-templateevents:generate')
+			->setDescription('For Development: Generate (and write) the event listener files from the data of events_data.json.')
 			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')
-			->addOption('force', 'f', InputOption::VALUE_NONE, 'Force update of the php_event_listener file.')
+			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
+			->addOption('write', 'w', InputOption::VALUE_NONE, 'Write the respective file(s).')
 		;
 	}
 
@@ -98,7 +99,9 @@ EOT;
 		$outputStyle = new OutputFormatterStyle('white', 'black', ['bold']);
 		$output->getFormatter()->setStyle('v', $outputStyle);
 	
+		$type = $input->getArgument('type');
 		$force = $input->getOption('force');
+		$write = $input->getOption('write');
 
 		$events = $this->events_cache->get_all();
 

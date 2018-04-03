@@ -7,35 +7,30 @@
 
 namespace marttiphpbb\templateevents\service;
 
-use phpbb\cache\driver\driver_interface as cache;
-
-class events_cache
+class events_store
 {
-	const LOCATION = '_marttiphpbb_templateevents_events';
+	const FILE = __DIR__ . '/../events_data.json';
 
-	/** @var cache */
-    private $cache;
-    
     /** @var array */
     private $events = [];
 
-	public function __construct(cache $cache)
-	{
-		$this->cache = $cache;			
+	public function __construct()
+	{			
 	}
 
     private function load()
     {
 		if (!$this->events)
 		{
-			$this->events = $this->cache->get(self::LOCATION);
+			$events = file_get_contents(self::FILE);
+			$this->events = json_decode($events, true);	
 		}
-    }
-
-    private function write()
-    {
-		$this->cache->put(self::LOCATION, $this->events);		
-    }
+	}
+	
+	private function write()
+	{
+		file_put_contents(self::FILE, json_encode($this->events, JSON_PRETTY_PRINT));
+	}
 
     public function set_all(array $events)
     {

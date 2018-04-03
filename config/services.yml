@@ -16,24 +16,35 @@ services:
         arguments:
             - '@cache.driver'
 
-    marttiphpbb.templateevents.twig.extension:
-        class: marttiphpbb\templateevents\twig\extension
-        arguments:
-            - '@request'
-            - '@user'
-            - '@language'
-            - '@marttiphpbb.templateevents.php_event_listener'
-            - '@marttiphpbb.templateevents.service.events_cache'
-        tags:
-            - { name: twig.extension }
+    marttiphpbb.templateevents.service.events_store:
+        class: marttiphpbb\templateevents\service\events_store
+
+#   marttiphpbb.templateevents.twig.extension:
+#       class: marttiphpbb\templateevents\twig\extension
+#       arguments:
+#          - '@request'
+#            - '@user'
+#           - '@language'
+#           - '@marttiphpbb.templateevents.php_event_listener'
+#           - '@marttiphpbb.templateevents.service.events_cache'
+#      tags:
+#         - { name: twig.extension }
             
     marttiphpbb.templateevents.console.scrape:
         class: marttiphpbb\templateevents\console\scrape
         arguments:
             - '@user'
-            - '@marttiphpbb.templateevents.service.events_cache'
+            - '@marttiphpbb.templateevents.service.events_cache'           
         tags:
             - { name: console.command }    
+
+    marttiphpbb.templateevents.console.extract:
+        class: marttiphpbb\templateevents\console\extract
+        arguments:
+            - '@user'
+            - '@marttiphpbb.templateevents.service.events_cache'           
+        tags:
+            - { name: console.command } 
 
     marttiphpbb.templateevents.console.verify:
         class: marttiphpbb\templateevents\console\verify
@@ -43,8 +54,8 @@ services:
         tags:
             - { name: console.command }
 
-    marttiphpbb.templateevents.console.generate_php_listener:
-        class: marttiphpbb\templateevents\console\generate_php_listener
+    marttiphpbb.templateevents.console.generate:
+        class: marttiphpbb\templateevents\console\generate
         arguments:
             - '@user'
             - '@marttiphpbb.templateevents.service.events_cache'
@@ -58,3 +69,12 @@ services:
             - '@marttiphpbb.templateevents.service.events_cache'
         tags:
             - { name: console.command }
+
+    marttiphpbb.templateevents.console.show:
+        class: marttiphpbb\templateevents\console\show
+        arguments:
+            - '@user'
+            - '@marttiphpbb.templateevents.service.events_cache'
+            - '@marttiphpbb.templateevents.service.events_store'           
+        tags:
+            - { name: console.command } 

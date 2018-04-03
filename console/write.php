@@ -35,7 +35,7 @@ class write extends command
 	{
 		$this
 			->setName('ext-templateevents:write')
-			->setDescription('Write events_data.json from cache (use ext-templateevents:scrape first).')
+			->setDescription('For Development: Write events_data.json from cache (use ext-templateevents:scrape and ext-templateevents:extract first).')
 			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')	
 		;
 	}
