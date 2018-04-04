@@ -173,18 +173,15 @@ class generate extends command
 					}
 				}
 
-				foreach ($loc as $this_file => $line)
-				{
-					$content = generate_template_listener::get(
-						$event_type, $name, $loc, 
-						$this_file, $since, $in_head, 
-						$delayed_head_events, $include_css,
-						$render_button, $render_php_events);
+				$content = generate_template_listener::get(
+					$event_type, $name, $loc, 
+					$since, $in_head, 
+					$delayed_head_events, $include_css,
+					$render_button, $render_php_events);
 
-					file_put_contents($dir . $name . '.html', $content);
+				file_put_contents($dir . $name . '.html', $content);
 
-					$io->writeln('<info>Listener generated: </><v>' . $name . '</>');
-				}
+				$io->writeln('<info>Listener generated: </><v>' . $name . '</>');
 			}
 
 			$io->writeln('');

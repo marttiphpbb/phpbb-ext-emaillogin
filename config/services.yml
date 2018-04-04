@@ -22,17 +22,6 @@ services:
 
     marttiphpbb.templateevents.service.events_store:
         class: marttiphpbb\templateevents\service\events_store
-
-#   marttiphpbb.templateevents.twig.extension:
-#       class: marttiphpbb\templateevents\twig\extension
-#       arguments:
-#          - '@request'
-#            - '@user'
-#           - '@language'
-#           - '@marttiphpbb.templateevents.php_event_listener'
-#           - '@marttiphpbb.templateevents.service.events_cache'
-#      tags:
-#         - { name: twig.extension }
             
     marttiphpbb.templateevents.console.scrape:
         class: marttiphpbb\templateevents\console\scrape

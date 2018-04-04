@@ -19,6 +19,7 @@ class generate_template_listener
 	const BUTTON_HIDE = "<a class=\"templateevents-hide\" href=\"{{- marttiphpbb_templateevents.u_hide -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_HIDE') -}}</a>\n";
 	const BUTTON_SHOW = "<a class=\"templateevents-show\" href=\"{{- marttiphpbb_templateevents.u_show -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SHOW') -}}</a>\n";
 	const EVENT_SPAN = "<span class=\"%class%\" title=\"%title%\">\n%content%</span>\n";
+	const SCRIPT_NAME_CONDITION = "{%- if SCRIPT_NAME == '%script_name%' -%}\n%content%{%- endif -%}\n";
 	const TITLE_NEWLINE = '&#10;';
 	const THIS_FILE_INDICATOR = '*';
 	const CLASS_TEMPLATE_EVENT = 'templateevents';
@@ -64,7 +65,6 @@ EOT;
 		event_type $type,
 		string $name,
 		array $loc,
-		string $this_file = '',
 		string $since = '',
 		bool $in_head = false, 
 		array $delayed_head_events = [],
@@ -91,11 +91,11 @@ EOT;
 		{
 			foreach($delayed_head_events as $head_event_name => $ary)
 			{
-				$content .= self::get_template_event($type, $head_event_name, $ary['loc'], $this_file, $ary['since'], true);
+				$content .= self::get_template_event($type, $head_event_name, $ary['loc'], $ary['since'], true);
 			}
 		}
 
-		$content .= self::get_template_event($type, $name, $loc, $this_file, $since);
+		$content .= self::get_template_event($type, $name, $loc, $since);
 
 		if ($render_php_events)
 		{
@@ -108,38 +108,59 @@ EOT;
 	private static function get_template_event(
 		event_type $type,
 		string $name, 
-		array $loc, 
-		string $this_file, 
+		array $loc,
 		string $since,
 		bool $is_head_event = false):string
 	{
-		$link_base = self::LINK_BASE . $type->get_location();
+		reset($loc);
 
-		$files = [];
+		if (count($loc) === 1)
+		{
+			$link = key($loc);
+			return self::get_template_event_span($type, $name, $loc, $link, $since, $is_head_event);
+		}
 
-		$line = reset($loc);
-		$link = key($loc);
+		$str = '';
+
+		foreach ($loc as $file => $line)
+		{		
+			list($script_name) = explode('_', $file);
+
+			$content = self::get_template_event_span($type, $name, $loc, $file, $since, $is_head_event);
+
+			$search = ['%script_name%', '%content%'];
+			$replace = [$script_name, $content];
+
+			$str .= str_replace($search, $replace, self::SCRIPT_NAME_CONDITION);
+		}
+
+		return $str;
+	}
+
+	private static function get_template_event_span(
+		event_type $type,
+		string $name, 
+		array $loc,
+		string $link,
+		string $since,
+		bool $is_head_event = false):string	
+	{
+		$files = array_keys($loc);
 
 		if (count($loc) > 1)
 		{
-			foreach ($loc as $file => $_line)
+			foreach ($files as &$file)
 			{
-				if ($this_file === $file)
+				if ($link === $file)
 				{
-					$files[] = $file . self::THIS_FILE_INDICATOR;
-					$link = $file;
-					$line = $_line;
-					continue;
+					$file .= self::THIS_FILE_INDICATOR;
+					break;
 				}
-
-				$files[] = $file;
 			}
 		}
-		else
-		{
-			$files[] = key($loc);
-		}
 
+		$line = $loc[$link];
+		$link_base = self::LINK_BASE . $type->get_location();
 		$link = $line ? $link_base . $link . self::LINK_LINE . $line : false;
 
 		$search = ['%link%', '%name%'];
@@ -148,8 +169,7 @@ EOT;
 		$content = $link ? str_replace($search, $replace, self::EVENT_LINK) : $name;
 
 		$since = $since ? [$since] : [];
-		$title .= implode(self::TITLE_NEWLINE, array_merge($since, $files));
-
+		$title = implode(self::TITLE_NEWLINE, array_merge($since, $files));
 		$class = $is_head_event ? self::CLASS_TEMPLATE_EVENT_HEAD : self::CLASS_TEMPLATE_EVENT;
 
 		$search = ['%class%', '%title%', '%content%'];
