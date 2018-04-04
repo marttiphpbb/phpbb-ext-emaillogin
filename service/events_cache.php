@@ -8,6 +8,7 @@
 namespace marttiphpbb\templateevents\service;
 
 use phpbb\cache\driver\driver_interface as cache;
+use marttiphpbb\templateevents\service\events_store;
 
 class events_cache
 {
@@ -15,13 +16,17 @@ class events_cache
 
 	/** @var cache */
     private $cache;
+
+	/** @var events_store */
+	private $events_store;
     
     /** @var array */
     private $events = [];
 
-	public function __construct(cache $cache)
+	public function __construct(cache $cache, events_store $events_store)
 	{
-		$this->cache = $cache;			
+		$this->cache = $cache;
+		$this->events_store = $events_store;			
 	}
 
     private function load()
@@ -29,6 +34,12 @@ class events_cache
 		if (!$this->events)
 		{
 			$this->events = $this->cache->get(self::LOCATION);
+		}
+
+		if (!$this->events)
+		{
+			$events = $this->events_store->get_all();
+			$this->set_all($events);
 		}
     }
 

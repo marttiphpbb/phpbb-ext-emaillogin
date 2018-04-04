@@ -13,63 +13,24 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Finder\Finder;
 use phpbb\console\command\command;
 use phpbb\user;
-use marttiphpbb\templateevents\service\events_cache;
+use marttiphpbb\templateevents\service\events_store;
+use marttiphpbb\templateevents\util\event_type;
+use marttiphpbb\templateevents\util\generate_php_listener;
+use marttiphpbb\templateevents\util\generate_template_listener;
 
 class generate extends command
 {
-	const TEMPLATE_FILE = <<<'EOT'
-<?php
-/**
-* phpBB Extension - marttiphpbb templateevents
-* @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
-* @license GNU General Public License, version 2 (GPL-2.0)
-* This file was generated with the ext-templateevents:generate-php-listener command
-*/
+	const PATH = __DIR__ . '/../';
 
-namespace marttiphpbb\templateevents\event;
+	/** @var events_store */
+	private $events_store;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\Event;
-
-class php_event_listener implements EventSubscriberInterface
-{
-	private $count_ary = [];
-
-	static public function getSubscribedEvents()
+	public function __construct(user $user, events_store $events_store)
 	{
-		return [
-%ary%
-		];
-	}
-
-	public function add(Event $event)
-	{
-		$name = $event->getName();
-	
-		if (isset($this->count_ary[$name]))
-		{
-			$this->count_ary[$name]++;
-			return;
-		}
-
-		$this->count_ary[$name] = 1;
-	}
-
-	public function get_count_ary():array 
-	{
-		return $this->count_ary;
-	}
-}
-EOT;
-
-	/** @var events_cache */
-	private $events_cache;
-
-	public function __construct(user $user, events_cache $events_cache)
-	{
-		$this->events_cache = $events_cache;
+		$this->events_store = $events_store;
 		parent::__construct($user);
 	}
 
@@ -80,10 +41,10 @@ EOT;
 	{
 		$this
 			->setName('ext-templateevents:generate')
-			->setDescription('For Development: Generate (and write) the event listener files from the data of events_data.json.')
+			->setDescription('For Development: Generate and write the event listener files from the data of events_data.json.')
 			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')
 			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
-			->addOption('write', 'w', InputOption::VALUE_NONE, 'Write the respective file(s).')
+			->addOption('delete', 'd', InputOption::VALUE_NONE, 'Delete obsolete files (events not present in events_data.json)')
 		;
 	}
 
@@ -100,36 +61,133 @@ EOT;
 		$output->getFormatter()->setStyle('v', $outputStyle);
 	
 		$type = $input->getArgument('type');
-		$force = $input->getOption('force');
-		$write = $input->getOption('write');
+		$delete = $input->getOption('delete');
 
-		$events = $this->events_cache->get_all();
+		$type_ary = event_type::cli_selector($type ?? '');
+
+		if (!count($type_ary))
+		{
+			$io->writeln('<error>Invalid argument. The argument should be all(default), template, acp or php.</>');
+			return;
+		}
+
+		$events = $this->events_store->get_all();
 
 		if (!$events)
 		{
-			$io->writeln('<info>no events were found in cache.</>');
+			$io->writeln('<info>no events were found in store.</>');
 			return;
 		}
 
-		$php_events = $events['php'];
-
-		$io->writeln('<comment>php events in cache: </><v>' . count($events['php']) . '</>');
-
-		if (!$force)
+		foreach ($type_ary as $type)
 		{
-			return;
+			$type_lang = event_type::LANG[$type];
+
+			$io->writeln([
+				'<comment>',
+				$type_lang,
+				str_repeat('-', strlen($type_lang)),
+				'</>',
+			]);
+		
+			if ($type === 'php')
+			{
+				if ($delete)
+				{
+					$io->writeln([
+						'<info>The delete option is not applicable for PHP events.',
+						'</>',
+					]);
+					continue;
+				}
+
+				generate_php_listener::write_file($events['php']);
+
+				$io->writeln([
+					'<info>The PHP event listener has been generated for </><v>' . count($events['php']) . '</><info> events.',
+					'</>',
+				]);
+
+				continue;
+			}
+
+			$dir = self::PATH . event_type::LISTENER_LOCATION[$type];
+
+			if ($delete)
+			{
+				$finder = new Finder();
+				$current_event_files = $finder->files()->in($dir)->sortByName();
+		
+				$files_were_deleted = false;
+
+				foreach ($current_event_files as $file)
+				{
+					$count++;
+
+					$filename = $file->getRelativePathname();
+					list($name) = explode('.', $filename);
+
+					if (!isset($events[$type][$name]))
+					{
+						unlink($dir . $filename);
+						$files_were_deleted = true;
+						$io->writeln('<info>Deleted: </><v>' . $filename . '</>');
+					}
+				}
+
+				if (!$files_were_deleted)
+				{
+					$io->writeln('<info>No event files were to be deleted.</>');
+				}
+	
+				$io->writeln('');
+
+				continue;
+			}
+
+			$event_type = new event_type($type);
+
+			foreach ($events[$type] as $name => $data)
+			{
+				$in_head = $data['in_head'] ?? false;
+				$render_button = $data['first_in_body'] ?? false;
+				$render_php_events = $data['last_in_body'] ?? false;
+				$include_css = $data['include_css'] ?? false;
+				$since = $data['since'] ?? '';
+				$loc = $data['loc'] ?? [];
+				$delayed_head_events = $data['delayed_head_events'] ?? [];
+
+				if (count($loc) === 0)
+				{
+					$io->writeln('<error>No loc for event ' . $name . '</>');
+					continue;
+				}
+
+				$delayed_head_events = [];
+
+				if (isset($data['delayed_head_events']) && is_array($data['delayed_head_events']))
+				{
+					foreach($data['delayed_head_events'] as $delayed_head_event)
+					{
+						$delayed_head_events[$delayed_head_event] = $events[$type][$delayed_head_event];
+					}
+				}
+
+				foreach ($loc as $this_file => $line)
+				{
+					$content = generate_template_listener::get(
+						$event_type, $name, $loc, 
+						$this_file, $since, $in_head, 
+						$delayed_head_events, $include_css,
+						$render_button, $render_php_events);
+
+					file_put_contents($dir . $name . '.html', $content);
+
+					$io->writeln('<info>Listener generated: </><v>' . $name . '</>');
+				}
+			}
+
+			$io->writeln('');
 		}
-
-		$str = '';
-
-		foreach ($php_events as $name => $ary)
-		{
-			$str .= "\t\t\t'$name' => 'add',\n";
-		}
-
-		$str = str_replace('%ary%', $str, self::TEMPLATE_FILE);
-
-		file_put_contents(__DIR__ . '/../event/php_event_listener.php', $str);
-		$io->writeln('<info>write: </><v>php_event_listener.php</>');
 	}
 }

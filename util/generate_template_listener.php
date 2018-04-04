@@ -14,17 +14,10 @@ class generate_template_listener
 	const LINK_BASE = 'https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/';
 	const LINK_LINE = '#L';
 	const INCLUDECSS = "{%- INCLUDECSS '@marttiphpbb_templateevents/templateevents.css' -%}\n";
-	const INCLUDECSS_EVENTS = [
-		'overal_header_head_append'			=> true,
-		'simple_header_head_append'			=> true,
-		'acp_overall_header_head_append'	=> true,
-		'acp_simple_header_head_append'		=> true,
-	];
-
 	const ENABLE = "{%- if marttiphpbb_templateevents.enable -%}\n%content%{%- endif -%}\n";
 	const DISABLE = "{%- if not marttiphpbb_templateevents.enable -%}\n%content%{%- endif -%}\n";
-	const BUTTON_HIDE = "<a class=\"templateevents-hide\" href=\"{{- marttiphpbb_templateevents.u_hide -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_HIDE')</a>\n";
-	const BUTTON_SHOW = "<a class=\"templateevents-show\" href=\"{{- marttiphpbb_templateevents.u_show -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SHOW')</a>\n";
+	const BUTTON_HIDE = "<a class=\"templateevents-hide\" href=\"{{- marttiphpbb_templateevents.u_hide -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_HIDE') -}}</a>\n";
+	const BUTTON_SHOW = "<a class=\"templateevents-show\" href=\"{{- marttiphpbb_templateevents.u_show -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SHOW') -}}</a>\n";
 	const EVENT_SPAN = "<span class=\"%class%\" title=\"%title%\">\n%content%</span>\n";
 	const TITLE_NEWLINE = '&#10;';
 	const THIS_FILE_INDICATOR = '*';
@@ -57,17 +50,17 @@ class generate_template_listener
 					</a>
 				{%- else -%}
 					{{- file -}}
-				{%- endif -%
+				{%- endif -%}
 				{%- if not loop.last -%}<br>{%- endif -%}
 			{%- endfor -%}
 			</td>
 		</tr>
 	{%- endfor -%}
 	</tbody>
-</table>';
+</table>
 EOT;
 
-	public function get(
+	public static function get(
 		event_type $type,
 		string $name,
 		array $loc,
@@ -98,21 +91,21 @@ EOT;
 		{
 			foreach($delayed_head_events as $head_event_name => $ary)
 			{
-				$content .= get_template_event($type, $head_event_name, $ary['loc'], $this_file, $ary['since'], true);
+				$content .= self::get_template_event($type, $head_event_name, $ary['loc'], $this_file, $ary['since'], true);
 			}
 		}
 
-		$content .= get_template_event($type, $name, $loc, $this_file, $since);
+		$content .= self::get_template_event($type, $name, $loc, $this_file, $since);
 
 		if ($render_php_events)
 		{
 			$content .= str_replace('%link_base%', self::LINK_BASE, self::PHP_EVENTS);
 		}
 
-		return str_replace('%content%', $content, self::ENABLE);
+		return $str . str_replace('%content%', $content, self::ENABLE);
 	}
 
-	private function get_template_event(
+	private static function get_template_event(
 		event_type $type,
 		string $name, 
 		array $loc, 
@@ -157,7 +150,7 @@ EOT;
 		$since = $since ? [$since] : [];
 		$title .= implode(self::TITLE_NEWLINE, array_merge($since, $files));
 
-		$class = $is_head_event ? self::CLASS_TEMPLATE_EVENT_HEAD : self::CLASS_TEMPATE_EVENT;
+		$class = $is_head_event ? self::CLASS_TEMPLATE_EVENT_HEAD : self::CLASS_TEMPLATE_EVENT;
 
 		$search = ['%class%', '%title%', '%content%'];
 		$replace = [$class, $title, $content];

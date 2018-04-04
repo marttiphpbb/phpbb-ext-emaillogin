@@ -16,35 +16,15 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
 use marttiphpbb\templateevents\service\events_cache;
+use marttiphpbb\templateevents\util\event_type;
+use marttiphpbb\templateevents\util\generate_php_listener;
+use marttiphpbb\templateevents\util\generate_template_listener;
 use Symfony\Component\Finder\Finder;
 use marttiphpbb\templateevents\model\template;
 
 class verify extends command
 {
-	const TEMPLATE = "{{- marttiphpbb_templateevents_render(_self) -}}\n";
-	const TEMPLATE_FIRST_AND_LAST_IN_BODY = "{{- marttiphpbb_templateevents_render(_self, true) -}}\n";
-	const TEMPLATE_CSS = "{%- INCLUDECSS '@marttiphpbb_templateevents/templateevents.css' -%}\n";
-	const FIRST_AND_LAST_IN_BODY = [
-		'overall_header_body_before'		=> true,
-		'simple_header_body_before'			=> true,
-		'acp_overall_header_body_before'	=> true,
-		'acp_simple_header_body_before'		=> true,
-		'overall_footer_body_after'			=> true,
-		'simple_footer_after'				=> true,
-		'acp_overall_footer_after'			=> true,
-		'acp_simple_footer_after'			=> true,
-	];
-	const CSS = [
-		'overall_header_head_append'		=> true,
-		'simple_header_head_append'			=> true,
-		'acp_overall_header_head_append'	=> true,
-		'acp_simple_header_head_append'		=> true,
-	];
-	const EVENTS_TYPE_LANG = [
-		'template'		=> 'template events',
-		'template_acp'	=> 'acp template events',
-		'php'			=> 'php events',
-	];
+	const ROOT_PATH = '/../../../../';
 
 	/** @var events_cache */
 	private $events_cache;
@@ -65,7 +45,6 @@ class verify extends command
 			->setDescription('For Development: Verify current events in this extension against cache.')
 			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')
 			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
-			->addOption('force', 'f', InputOption::VALUE_NONE, 'Force update of files.')
 			->addOption('content', 'c', InputOption::VALUE_NONE, 'Verify content of files.')
 			->addOption('list', 'l', InputOption::VALUE_NONE, 'List files & size.')		
 		;
@@ -82,21 +61,17 @@ class verify extends command
 
 		$outputStyle = new OutputFormatterStyle('white', 'black', ['bold']);
 		$output->getFormatter()->setStyle('v', $outputStyle);
-	
-		$outputStyle = new OutputFormatterStyle('white', 'red', ['bold']);
-		$output->getFormatter()->setStyle('del', $outputStyle);
 
 		$type = $input->getArgument('type');
-		$force = $input->getOption('force');
 		$content = $input->getOption('content');
 		$list = $input->getOption('list');
+		$force = false;
 
-		$type = $type ?? 'template';
-		$type = $type === 'acp' ? 'template_acp' : $type;
+		$type_ary = event_type::cli_selector($type);
 
-		if (!in_array($type, ['template', 'template_acp', 'php']))
+		if (!count($type_ary))
 		{
-			$io->writeln('<error>Invalid argument. The argument should be template, acp or php.</>');
+			$io->writeln('<error>Invalid argument. The argument should be all(default), template, acp or php.</>');
 			return;
 		}
 
@@ -108,128 +83,165 @@ class verify extends command
 			return;
 		}
 
-		$type_lang = self::EVENTS_TYPE_LANG[$type];
-
-		$io->writeln('<comment>' . $type_lang . ' in cache: </><v>' . count($events[$type]) . '</>');
-
-		if ($type === 'php')
+		foreach ($type_ary as $type)
 		{
-			return;
-		}
+			$type_lang = event_type::LANG[$type];
 
-		$dir = __DIR__;
-		$dir .= $type === 'template' ? '/../styles/all/template/event' : '/../adm/style/event';
+			$io->writeln([
+				'',
+				'<comment>' . $type_lang . '</comment>',
+				'<comment>' . str_repeat('-', strlen($type_lang)) . '</comment>',
+				'<comment>' . $type_lang . ' in cache: </><v>' . count($events[$type]) . '</>',
+				'']);
 
-		$finder = new Finder();
-		$event_files = $finder->files()->in($dir)->sortByName();
-
-		$count = 0;
-
-		$to_delete = [];
-
-		$ev_files = $ev_cache = $ev_size = [];
-
-		foreach ($event_files as $file)
-		{
-			$count++;
-
-			$filename = $file->getRelativePathname();
-			list($name) = explode('.', $filename);
-
-			if (!isset($events[$type][$name]))
+			if ($type === 'php')
 			{
-				$to_delete[] = $filename;
-			}
+				$new = generate_php_listener::get($events['php']);
+				$stored = generate_php_listener::read_file();
 
-			$ev_files[] = $name;
-			$ev_size[] = $file->getSize();
-		}
-
-		foreach ($events[$type] as $name => $ary)
-		{
-			$ev_cache[] = $name;
-		}
-
-		$io->writeln('<comment>' . $type_lang . ' files currently in ext: </><v>' . $count . '</>');
-
-		if (!$content && !$list)
-		{
-			if ($force)
-			{
-				foreach ($to_delete as $filename)
+				if ($new === $stored)
 				{
-					unlink($dir . '/' . $filename);
-					$io->writeln('<info>delete ' . $type_lang . ' file in ext: </><del>"'. $filename . '"</>');				
+					$io->writeln([
+						'<info>The stored php listener is equal to the newly generated.',
+						'The length is </><v>' . strlen($new) . '</><info> bytes.</>',
+						'',
+					]);
+
+					continue;
 				}
+
+				$io->writeln([
+					'<error>The stored php listener is NOT equal to the newly generated.</>',
+					'<info>The length of the stored file is </><v>' . strlen($stored) . '</><info> bytes </>',
+					'<info>The new length is </><v>' . strlen($new) . '</><info> bytes</>',
+					'',
+				]);
+
+				continue;
 			}
-			else
+
+			$dir = self::ROOT_PATH . event_type::LISTENER_LOCATION[$type];
+
+			$finder = new Finder();
+			$current_event_files = $finder->files()->in($dir)->sortByName();
+	
+			$count = 0;
+			$ev_files = $ev_cache = $ev_size = $to_delete = [];
+
+			foreach ($current_event_files as $file)
 			{
-				foreach ($to_delete as $filename)
+				$count++;
+
+				$filename = $file->getRelativePathname();
+				list($name) = explode('.', $filename);
+
+				if (!isset($events[$type][$name]))
 				{
-					$io->writeln('<comment>file to be deleted: </><del>' . $filename . '</>');
+					$to_delete[] = $filename;
 				}
+
+				$ev_files[] = $name;
+				$ev_size[] = $file->getSize();
 			}
 
-			$to_add = array_diff($ev_cache, $ev_files);
-
-			if ($force)
+			foreach ($events[$type] as $name => $ary)
 			{
-				foreach ($to_add as $name)
-				{
-					$str = $this->get_template($name);
-					file_put_contents($dir . '/' . $name . '.html', $str);
-					$io->writeln('<info>write: </><v>' . $name . '</>');				
-				}
+				$ev_cache[] = $name;
 			}
-			else
+
+			$io->writeln([
+				'',
+				'<comment>' . $type_lang . ' files currently in extension: </><v>' . $count . '</>',
+				'',
+			]);
+
+			if ($count !== count($events[$type]))
 			{
-				foreach ($to_add as $name)
-				{
-					$io->writeln('<comment>file to add to ext: </><v>' . $name . '</>');
-				}			
+				$io->writeln([
+					'<error>Number of files doesn\'t match the cache.</>',
+					'',
+				]);
 			}
 
-			return;
-		}
-
-		if ($list)
-		{
-			foreach($ev_files as $k => $name)
-			{
-				$io->writeln('<info>' . $name . ': </><v>' . $ev_size[$k] . '</>');
-
-			}
-
-			return;
-		}
-
-		$has_diff = false;
-
-		foreach ($ev_files as $name)
-		{
-			$filename = $dir . '/' . $name . '.html';
-			$str = $this->get_template($name);
-			$str_check = file_get_contents($filename);
-
-			if ($str !== $str_check)
+			if (!$content && !$list)
 			{
 				if ($force)
 				{
-					file_put_contents($filename, $str);
-					$io->writeln('<info>Content updated in file: </><v>' . $name . '</>');
+					foreach ($to_delete as $filename)
+					{
+						unlink($dir . '/' . $filename);
+						$io->writeln('<info>delete ' . $type_lang . ' file in ext: </><del>"'. $filename . '"</>');				
+					}
 				}
 				else
 				{
-					$io->writeln('<comment>Invalid content in file: </><v>' . $name . '</>');
+					foreach ($to_delete as $filename)
+					{
+						$io->writeln('<comment>file to be deleted: </><error>' . $filename . '</>');
+					}
 				}
 
-				$has_diff = true;
-			}
-		}
+				$to_add = array_diff($ev_cache, $ev_files);
 
-		if (!$has_diff)
-		{
-			$io->writeln('<comment>No invalid content found.</>');
+				if ($force)
+				{
+					foreach ($to_add as $name)
+					{
+						$str = $this->get_template($name);
+						file_put_contents($dir . '/' . $name . '.html', $str);
+						$io->writeln('<info>write: </><v>' . $name . '</>');				
+					}
+				}
+				else
+				{
+					foreach ($to_add as $name)
+					{
+						$io->writeln('<comment>file to add to ext: </><v>' . $name . '</>');
+					}			
+				}
+
+				return;
+			}
+
+			if ($list)
+			{
+				foreach($ev_files as $k => $name)
+				{
+					$io->writeln('<info>' . $name . ': </><v>' . $ev_size[$k] . '</>');
+
+				}
+
+				return;
+			}
+
+			$has_diff = false;
+
+			foreach ($ev_files as $name)
+			{
+				$filename = $dir . '/' . $name . '.html';
+				$str = $this->get_template($name);
+				$str_check = file_get_contents($filename);
+
+				if ($str !== $str_check)
+				{
+					if ($force)
+					{
+						file_put_contents($filename, $str);
+						$io->writeln('<info>Content updated in file: </><v>' . $name . '</>');
+					}
+					else
+					{
+						$io->writeln('<comment>Invalid content in file: </><v>' . $name . '</>');
+					}
+
+					$has_diff = true;
+				}
+			}
+
+			if (!$has_diff)
+			{
+				$io->writeln('<comment>No invalid content found.</>');
+			}
 		}
 	}
 

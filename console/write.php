@@ -16,15 +16,20 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
 use marttiphpbb\templateevents\service\events_cache;
+use marttiphpbb\templateevents\service\events_store;
 
 class write extends command
 {
 	/** @var events_cache */
 	private $events_cache;
 
-	public function __construct(user $user, events_cache $events_cache)
+	/** @var events_store */
+	private $events_store;
+
+	public function __construct(user $user, events_cache $events_cache, events_store $events_store)
 	{
 		$this->events_cache = $events_cache;
+		$this->events_store = $events_store;
 		parent::__construct($user);
 	}
 
@@ -52,12 +57,16 @@ class write extends command
 		$outputStyle = new OutputFormatterStyle('white', 'black', ['bold']);
 		$output->getFormatter()->setStyle('v', $outputStyle);
 
-		if ($this->events_cache->write_file())
+		$events = $this->events_cache->get_all();
+
+		if (!$events)
 		{
-			$io->writeln('<info>file written: </><v>events_data.json</>');
-			return;
+			$io->writeln('<info>no events were found in cache.</>');
+			return;			
 		}
 
-		$io->writeln('<info>no events were found in cache.</>');
+		$this->events_store->set_all($events);
+
+		$io->writeln('<info>file written: </><v>events_data.json</>');
 	}
 }

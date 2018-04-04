@@ -1,0 +1,17 @@
+{%- if marttiphpbb_templateevents.enable -%}
+<a class="templateevents-hide" href="{{- marttiphpbb_templateevents.u_hide -}}">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_HIDE') -}}</a>
+{%- endif -%}
+{%- if not marttiphpbb_templateevents.enable -%}
+<a class="templateevents-show" href="{{- marttiphpbb_templateevents.u_show -}}">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SHOW') -}}</a>
+{%- endif -%}
+{%- if marttiphpbb_templateevents.enable -%}
+<span class="templateevents-head" title="3.1.0-b4&#10;simple_header.html">
+<a href="https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/styles/prosilver/template/simple_header.html#L40">simple_header_head_append</a>
+</span>
+<span class="templateevents-head" title="3.1.0-RC3&#10;simple_header.html">
+<a href="https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/styles/prosilver/template/simple_header.html#L44">simple_header_stylesheets_after</a>
+</span>
+<span class="templateevents" title="3.1.0-b2&#10;simple_header.html">
+<a href="https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/styles/prosilver/template/simple_header.html#L50">simple_header_body_before</a>
+</span>
+{%- endif -%}

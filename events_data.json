@@ -3842,7 +3842,8 @@
                 "overall_footer.html": 91
             },
             "since": "3.1.3-RC1",
-            "explain": "Add content before the `<\/body>` tag but after the $SCRIPTS var, i.e. after the js scripts have been loaded"
+            "explain": "Add content before the `<\/body>` tag but after the $SCRIPTS var, i.e. after the js scripts have been loaded",
+            "last_in_body": true
         },
         "overall_footer_breadcrumb_append": {
             "loc": {
@@ -3919,7 +3920,13 @@
                 "overall_header.html": 77
             },
             "since": "3.1.0-b2",
-            "explain": "Add content to the header body"
+            "explain": "Add content to the header body",
+            "first_in_body": true,
+            "delayed_head_events": [
+                "overall_header_feeds",
+                "overall_header_head_append",
+                "overall_header_stylesheets_after"
+            ]
         },
         "overall_header_breadcrumb_append": {
             "loc": {
@@ -3961,14 +3968,17 @@
                 "overall_header.html": 18
             },
             "since": "3.1.6-RC1",
-            "explain": "Add custom feeds"
+            "explain": "Add custom feeds",
+            "in_head": true
         },
         "overall_header_head_append": {
             "loc": {
                 "overall_header.html": 68
             },
             "since": "3.1.0-a1",
-            "explain": "Add asset calls directly before the `<\/head>` tag"
+            "explain": "Add asset calls directly before the `<\/head>` tag",
+            "include_css": true,
+            "in_head": true
         },
         "overall_header_headerbar_after": {
             "loc": {
@@ -4045,7 +4055,8 @@
                 "overall_header.html": 72
             },
             "since": "3.1.0-RC3",
-            "explain": "Add asset calls after stylesheets within the `<\/head>` tag. Note that INCLUDECSS will not work with this event."
+            "explain": "Add asset calls after stylesheets within the `<\/head>` tag. Note that INCLUDECSS will not work with this event.",
+            "in_head": true
         },
         "posting_attach_body_attach_row_controls_append": {
             "loc": {
@@ -4451,28 +4462,37 @@
                 "simple_footer.html": 33
             },
             "since": "3.1.0-a1",
-            "explain": "Add content directly prior to the `<\/body>` tag of the simple footer"
+            "explain": "Add content directly prior to the `<\/body>` tag of the simple footer",
+            "last_in_body": true
         },
         "simple_header_body_before": {
             "loc": {
                 "simple_header.html": 50
             },
             "since": "3.1.0-b2",
-            "explain": "Add content to the header body"
+            "explain": "Add content to the header body",
+            "first_in_body": true,
+            "delayed_head_events": [
+                "simple_header_head_append",
+                "simple_header_stylesheets_after"
+            ]
         },
         "simple_header_head_append": {
             "loc": {
                 "simple_header.html": 40
             },
             "since": "3.1.0-b4",
-            "explain": "Add asset calls directly before the `<\/head>` tag"
+            "explain": "Add asset calls directly before the `<\/head>` tag",
+            "include_css": true,
+            "in_head": true
         },
         "simple_header_stylesheets_after": {
             "loc": {
                 "simple_header.html": 44
             },
             "since": "3.1.0-RC3",
-            "explain": "Add asset calls after stylesheets within the `<\/head>` tag. Note that INCLUDECSS will not work with this event."
+            "explain": "Add asset calls after stylesheets within the `<\/head>` tag. Note that INCLUDECSS will not work with this event.",
+            "in_head": true
         },
         "topiclist_row_prepend": {
             "loc": {
@@ -5558,28 +5578,37 @@
                 "overall_footer.html": 42
             },
             "since": "3.1.0-a1",
-            "explain": "Add content below the footer in the ACP"
+            "explain": "Add content below the footer in the ACP",
+            "last_in_body": true
         },
         "acp_overall_header_body_before": {
             "loc": {
                 "overall_header.html": 100
             },
             "since": "3.1.0-b2",
-            "explain": "Add content to the header body"
+            "explain": "Add content to the header body",
+            "first_in_body": true,
+            "delayed_head_events": [
+                "acp_overall_header_head_append",
+                "acp_overall_header_stylesheets_after"
+            ]
         },
         "acp_overall_header_head_append": {
             "loc": {
                 "overall_header.html": 90
             },
             "since": "3.1.0-a1",
-            "explain": "Add assets within the `<head>` tags in the ACP"
+            "explain": "Add assets within the `<head>` tags in the ACP",
+            "include_css": true,
+            "in_head": true
         },
         "acp_overall_header_stylesheets_after": {
             "loc": {
                 "overall_header.html": 94
             },
             "since": "3.1.0-RC3",
-            "explain": "Add assets after stylesheets within the `<head>` tags in the ACP. Note that INCLUDECSS will not work with this event."
+            "explain": "Add assets after stylesheets within the `<head>` tags in the ACP. Note that INCLUDECSS will not work with this event.",
+            "in_head": true
         },
         "acp_permission_forum_copy_src_forum_append": {
             "loc": {
@@ -5852,28 +5881,37 @@
                 "simple_footer.html": 23
             },
             "since": "3.1.0-a1",
-            "explain": "Add content below the simple footer in the ACP"
+            "explain": "Add content below the simple footer in the ACP",
+            "last_in_body": true
         },
         "acp_simple_header_body_before": {
             "loc": {
                 "simple_header.html": 94
             },
             "since": "3.1.0-b2",
-            "explain": "Add content to the header body"
+            "explain": "Add content to the header body",
+            "first_in_body": true,
+            "delayed_head_events": [
+                "acp_simple_header_head_append",
+                "acp_simple_header_stylesheets_after"
+            ]
         },
         "acp_simple_header_head_append": {
             "loc": {
                 "simple_header.html": 87
             },
             "since": "3.1.0-a1",
-            "explain": "Add assets within the `<head>` tags in the simple header of the ACP"
+            "explain": "Add assets within the `<head>` tags in the simple header of the ACP",
+            "include_css": true,
+            "in_head": true
         },
         "acp_simple_header_stylesheets_after": {
             "loc": {
                 "simple_header.html": 89
             },
             "since": "3.1.0-RC3",
-            "explain": "Add assets after stylesheets within the `<head>` tags in the simple header of the ACP. Note that INCLUDECSS will not work with this event."
+            "explain": "Add assets after stylesheets within the `<head>` tags in the simple header of the ACP. Note that INCLUDECSS will not work with this event.",
+            "in_head": true
         },
         "acp_users_overview_options_append": {
             "loc": {

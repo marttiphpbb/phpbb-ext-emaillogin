@@ -225,7 +225,7 @@ class extract extends command
 				$head_finished = false;
 				$body_started = false;
 				$file = $dir . $filename;
-				$head_events = [];
+				$delayed_head_events = [];
 				$first_event_in_body = '';
 
 				if ($handle = fopen($file, 'r')) 
@@ -253,7 +253,7 @@ class extract extends command
 							
 							if ($event_name)
 							{
-								$head_events[] = $event_name;
+								$delayed_head_events[] = $event_name;
 								$events[$type][$event_name]['in_head'] = true;
 								$io->writeln('<info>In head: </><v>' . $event_name . '</>');
 							}
@@ -273,7 +273,7 @@ class extract extends command
 							if ($event_name)
 							{
 								$events[$type][$event_name]['first_in_body'] = true;
-								$events[$type][$event_name]['head_events'] = $head_events;
+								$events[$type][$event_name]['delayed_head_events'] = $delayed_head_events;
 								$io->writeln(['', '<info>First event in body: </><v>' . $event_name . '</>', '']);
 								break;
 							}

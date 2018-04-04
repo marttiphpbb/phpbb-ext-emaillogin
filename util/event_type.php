@@ -21,6 +21,12 @@ class event_type
 		'template_acp'	=> 'adm/style/event/',
 	];
 
+	const LANG = [
+		'template'		=> 'template events',
+		'template_acp'	=> 'acp template events',
+		'php'			=> 'PHP events',
+	];	
+
 	/** @var string */
 	private $type;
 
@@ -39,19 +45,14 @@ class event_type
 		return $this->type;
 	}
 
-	public function get_location():string
-	{
-		return self::LOCATION[$this->type];
-	}
-
-	public function get_listener_location():string 
-	{
-		return self::LISTENER_LOCATION[$this->type];
-	}
-
 	public function __toString():string
 	{
 		return $this->type;
+	}
+
+	public function get_location():string 
+	{
+		return self::LOCATION[$this->type];
 	}
 
 	public static function get_all_type_locations():array 
@@ -62,5 +63,31 @@ class event_type
 	public static function get_all_types():array 
 	{
 		return array_keys(self::LOCATIONS);
+	}
+
+	public static function cli_selector(string $type):array
+	{
+		switch($type)
+		{
+			case 'template':
+				return ['template'];
+				break;
+			case 'template_acp':
+			case 'acp':
+				return ['template_acp'];
+				break;
+			case 'php':
+				return ['php'];
+				break;
+			case '':
+			case 'all':
+				return ['php', 'template', 'template_acp'];
+				break;			
+			default: 
+				return [];
+				break;
+		}
+
+		return [];
 	}
 }

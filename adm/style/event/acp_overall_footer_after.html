@@ -1,0 +1,36 @@
+{%- if marttiphpbb_templateevents.enable -%}
+<span class="templateevents" title="3.1.0-a1&#10;overall_footer.html">
+<a href="https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/adm/style/overall_footer.html#L42">acp_overall_footer_after</a>
+</span>
+<br>
+<table class="marttiphpbb-templateevents-php">
+	<thead>
+		<tr>
+			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SINCE') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_FILENAME') -}}</th>	
+		</tr>
+	</thead>
+	<tbody>
+	{%- for name, e in marttiphpbb_templateevents.php -%}
+		<tr>
+			<td>{{- name -}}</td>
+			<td>{{- e.count -}}</td>
+			<td>{{- e.since -}}</td>
+			<td>
+			{%- for file, line in e.loc -%}
+				{%- if line -%}
+					<a href="https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/{{- file -}}#L{{- line -}}">
+						{{- file -}}
+					</a>
+				{%- else -%}
+					{{- file -}}
+				{%- endif -%}
+				{%- if not loop.last -%}<br>{%- endif -%}
+			{%- endfor -%}
+			</td>
+		</tr>
+	{%- endfor -%}
+	</tbody>
+</table>{%- endif -%}
