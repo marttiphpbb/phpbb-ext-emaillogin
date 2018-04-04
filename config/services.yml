@@ -3,6 +3,9 @@ services:
         class: marttiphpbb\templateevents\event\listener
         arguments:
             - '@request'
+            - '@user'
+            - '@marttiphpbb.templateevents.service.events_cache'
+            - '@marttiphpbb.templateevents.php_event_listener'
         tags:
             - { name: event.listener }
 
