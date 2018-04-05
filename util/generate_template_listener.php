@@ -26,6 +26,7 @@ class generate_template_listener
 	const CLASS_TEMPLATE_EVENT_HEAD = 'templateevents-head';
 	const EVENT_LINK = "<a class=\"%class%\" title=\"%title%\" href=\"%link%\">%name%</a>\n";
 	const EVENT_HEAD_COMMENT = "{# Rendering of the head events is delayed until the first event in the body #}\n";
+	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-templateevents:generate command. #}\n";
 	const PHP_EVENTS = <<<'EOT'
 <br>
 <table class="marttiphpbb-templateevents-php">
@@ -82,13 +83,15 @@ EOT;
 			}
 		}
 
-		return self::get_template_event_listener(
+		$content = self::get_template_event_listener(
 			$type, $name, $loc, 
 			$since, $in_head, 
 			$delayed_head_events, $include_css,
 			$render_button, $render_php_events,
 			$include_js
 		);
+
+		return self::EVENT_LISTENER_COMMENT . $content;
 	}
 
 	private static function get_template_event_listener(
