@@ -3,7 +3,7 @@
 * phpBB Extension - marttiphpbb templateevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
-* This file was generated with the ext-templateevents:generate-php-listener command
+* This file was generated with the ext-templateevents:generate command
 */
 
 namespace marttiphpbb\templateevents\event;

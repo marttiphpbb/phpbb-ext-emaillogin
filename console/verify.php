@@ -24,7 +24,7 @@ use marttiphpbb\templateevents\model\template;
 
 class verify extends command
 {
-	const ROOT_PATH = '/../../../../';
+	const PATH = __DIR__ . '/../';
 
 	/** @var events_cache */
 	private $events_cache;
@@ -45,8 +45,7 @@ class verify extends command
 			->setDescription('For Development: Verify current events in this extension against cache.')
 			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')
 			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
-			->addOption('content', 'c', InputOption::VALUE_NONE, 'Verify content of files.')
-			->addOption('list', 'l', InputOption::VALUE_NONE, 'List files & size.')		
+			->addOption('content', 'c', InputOption::VALUE_NONE, 'Verify content of files.')	
 		;
 	}
 
@@ -64,10 +63,8 @@ class verify extends command
 
 		$type = $input->getArgument('type');
 		$content = $input->getOption('content');
-		$list = $input->getOption('list');
-		$force = false;
 
-		$type_ary = event_type::cli_selector($type);
+		$type_ary = event_type::cli_selector($type ?? '');
 
 		if (!count($type_ary))
 		{
@@ -89,9 +86,9 @@ class verify extends command
 
 			$io->writeln([
 				'',
-				'<comment>' . $type_lang . '</comment>',
-				'<comment>' . str_repeat('-', strlen($type_lang)) . '</comment>',
-				'<comment>' . $type_lang . ' in cache: </><v>' . count($events[$type]) . '</>',
+				'<comment>' . $type_lang . '</>',
+				'<comment>' . str_repeat('-', strlen($type_lang)) . '</>',
+				'<info>' . $type_lang . ' in cache: </><v>' . count($events[$type]) . '</>',
 				'']);
 
 			if ($type === 'php')
@@ -120,13 +117,13 @@ class verify extends command
 				continue;
 			}
 
-			$dir = self::ROOT_PATH . event_type::LISTENER_LOCATION[$type];
+			$dir = self::PATH . event_type::LISTENER_LOCATION[$type];
 
 			$finder = new Finder();
 			$current_event_files = $finder->files()->in($dir)->sortByName();
 	
 			$count = 0;
-			$ev_files = $ev_cache = $ev_size = $to_delete = [];
+			$ev_files = $ev_cache = $to_delete = [];
 
 			foreach ($current_event_files as $file)
 			{
@@ -141,7 +138,6 @@ class verify extends command
 				}
 
 				$ev_files[] = $name;
-				$ev_size[] = $file->getSize();
 			}
 
 			foreach ($events[$type] as $name => $ary)
@@ -151,7 +147,7 @@ class verify extends command
 
 			$io->writeln([
 				'',
-				'<comment>' . $type_lang . ' files currently in extension: </><v>' . $count . '</>',
+				'<info>' . $type_lang . ' files currently in extension: </><v>' . $count . '</>',
 				'',
 			]);
 
@@ -163,76 +159,38 @@ class verify extends command
 				]);
 			}
 
-			if (!$content && !$list)
+			foreach ($to_delete as $filename)
 			{
-				if ($force)
-				{
-					foreach ($to_delete as $filename)
-					{
-						unlink($dir . '/' . $filename);
-						$io->writeln('<info>delete ' . $type_lang . ' file in ext: </><del>"'. $filename . '"</>');				
-					}
-				}
-				else
-				{
-					foreach ($to_delete as $filename)
-					{
-						$io->writeln('<comment>file to be deleted: </><error>' . $filename . '</>');
-					}
-				}
-
-				$to_add = array_diff($ev_cache, $ev_files);
-
-				if ($force)
-				{
-					foreach ($to_add as $name)
-					{
-						$str = $this->get_template($name);
-						file_put_contents($dir . '/' . $name . '.html', $str);
-						$io->writeln('<info>write: </><v>' . $name . '</>');				
-					}
-				}
-				else
-				{
-					foreach ($to_add as $name)
-					{
-						$io->writeln('<comment>file to add to ext: </><v>' . $name . '</>');
-					}			
-				}
-
-				return;
+				$io->writeln('<info>file to be deleted: </><error>' . $filename . '</>');
 			}
 
-			if ($list)
+			$to_add = array_diff($ev_cache, $ev_files);
+
+			foreach ($to_add as $name)
 			{
-				foreach($ev_files as $k => $name)
-				{
-					$io->writeln('<info>' . $name . ': </><v>' . $ev_size[$k] . '</>');
+				$io->writeln('<info>file to add to ext: </><v>' . $name . '</>');
+			}		
 
-				}
-
-				return;
-			}
+			$io->writeln([
+				'<info>',
+				'Content differences:',
+				'--------------------',
+				'</>',
+			]);
 
 			$has_diff = false;
 
+			$event_type = new event_type($type);
+
 			foreach ($ev_files as $name)
 			{
-				$filename = $dir . '/' . $name . '.html';
-				$str = $this->get_template($name);
-				$str_check = file_get_contents($filename);
+				$filename = $name . '.html';
+				$generated = generate_template_listener::get($events, $event_type, $name);
+				$in_file = file_get_contents($dir . $filename);
 
-				if ($str !== $str_check)
+				if ($generated !== $in_file)
 				{
-					if ($force)
-					{
-						file_put_contents($filename, $str);
-						$io->writeln('<info>Content updated in file: </><v>' . $name . '</>');
-					}
-					else
-					{
-						$io->writeln('<comment>Invalid content in file: </><v>' . $name . '</>');
-					}
+					$io->writeln('<info>Invalid content in file: </><v>' . $filename . '</>');
 
 					$has_diff = true;
 				}
@@ -240,15 +198,10 @@ class verify extends command
 
 			if (!$has_diff)
 			{
-				$io->writeln('<comment>No invalid content found.</>');
+				$io->writeln('<info>No invalid content found.</>');
 			}
-		}
-	}
 
-	private function get_template(string $name):string
-	{
-		$str = isset(self::FIRST_AND_LAST_IN_BODY[$name]) ? self::TEMPLATE_FIRST_AND_LAST_IN_BODY : self::TEMPLATE;
-		$str .= isset(self::CSS[$name]) ? self::TEMPLATE_CSS : '';
-		return $str;
+			$io->writeln('');
+		}
 	}
 }

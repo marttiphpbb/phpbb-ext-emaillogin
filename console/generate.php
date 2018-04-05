@@ -149,35 +149,13 @@ class generate extends command
 
 			foreach ($events[$type] as $name => $data)
 			{
-				$in_head = $data['in_head'] ?? false;
-				$render_button = $data['first_in_body'] ?? false;
-				$render_php_events = $data['last_in_body'] ?? false;
-				$include_css = $data['include_css'] ?? false;
-				$since = $data['since'] ?? '';
-				$loc = $data['loc'] ?? [];
-				$delayed_head_events = $data['delayed_head_events'] ?? [];
-
-				if (count($loc) === 0)
+				if (count($data['loc']) === 0)
 				{
 					$io->writeln('<error>No loc for event ' . $name . '</>');
 					continue;
 				}
 
-				$delayed_head_events = [];
-
-				if (isset($data['delayed_head_events']) && is_array($data['delayed_head_events']))
-				{
-					foreach($data['delayed_head_events'] as $delayed_head_event)
-					{
-						$delayed_head_events[$delayed_head_event] = $events[$type][$delayed_head_event];
-					}
-				}
-
-				$content = generate_template_listener::get(
-					$event_type, $name, $loc, 
-					$since, $in_head, 
-					$delayed_head_events, $include_css,
-					$render_button, $render_php_events);
+				$content = generate_template_listener::get($events, $event_type, $name);
 
 				file_put_contents($dir . $name . '.html', $content);
 

@@ -1,25 +1,22 @@
-span.templateevents, span.templateevents-head, a.templateevents-hide, a.templateevents-show
+a.templateevents, a.templateevents-head, a.templateevents-hide, a.templateevents-show
 {
     color: white;
     border: 1px solid white;
+    border-radius: 5px;
     padding: 2px;
     margin: 2px;
-    border-radius: 5px;
+    font-size: 12px;
+    line-height: 14px;
 }
 
-span.templateevents a, span.templateevents-head a
+a.templateevents
 {
-    color: white;
+    background-color: black;    
 }
 
-span.templateevents
+a.templateevents-head
 {
-    background-color: purple;    
-}
-
-span.templateevents-head
-{
-	background-color: maroon;
+	background-color: darkgrey;
 }
 
 a.templateevents-hide
