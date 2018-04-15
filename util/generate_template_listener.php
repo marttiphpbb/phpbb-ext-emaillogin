@@ -25,6 +25,7 @@ class generate_template_listener
 	const CLASS_TEMPLATE_EVENT = 'templateevents';
 	const CLASS_TEMPLATE_EVENT_HEAD = 'templateevents-head';
 	const EVENT_LINK = "<a class=\"%class%\" title=\"%title%\" href=\"%link%\">%name%</a>\n";
+	const EVENT_LINK_TITLE_SPAN = "<a class=\"%class%\" href=\"%link%\"><span title=\"%title%\">%name%</span></a>\n";
 	const EVENT_HEAD_COMMENT = "{# Rendering of the head events is delayed until the first event in the body #}\n";
 	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-templateevents:generate command. #}\n";
 	const PHP_EVENTS = <<<'EOT'
@@ -209,6 +210,10 @@ EOT;
 		$search = ['%class%', '%title%', '%link%', '%name%'];
 		$replace = [$class, $title, $link, $name];
 
-		return str_replace($search, $replace, self::EVENT_LINK);
+		// because the title attribute inside '.breadcrumbs a' gets replaced 
+		// by some Javascript in prosilver, it's moved to a <span>
+		$template = strpos($name, 'breadcrumb_') === false ? self::EVENT_LINK : self::EVENT_LINK_TITLE_SPAN;
+
+		return str_replace($search, $replace, $template);
 	}
 }
