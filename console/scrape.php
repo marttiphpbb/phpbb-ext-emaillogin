@@ -42,7 +42,7 @@ class scrape extends command
 	}
 
 	/**
-	* @param InputInterface 
+	* @param InputInterface
 	* @param OutputInterface
 	* @return void
 	*/
@@ -75,7 +75,7 @@ class scrape extends command
 			$t = array_map('trim', $t);
 
 			$files = explode(',', $t[1]);
-		
+
 			$files = array_map('trim', $files);
 
 			$loc = array_fill_keys($files, false);
@@ -108,12 +108,12 @@ class scrape extends command
 				'since'		=> $t[2],
 				'explain'	=> $t[3],
 			];
-		}	
+		}
 
 		$this->events_cache->set_all($events);
 
 		$io->writeln([
-			'', 
+			'',
 			'<info>written to cache.</>',
 			'<info>=================</>',
 			'<comment>php events: </><v>' . count($events['php']) . '</>',

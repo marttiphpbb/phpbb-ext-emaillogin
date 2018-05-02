@@ -49,7 +49,7 @@ class generate extends command
 	}
 
 	/**
-	* @param InputInterface 
+	* @param InputInterface
 	* @param OutputInterface
 	* @return void
 	*/
@@ -59,7 +59,7 @@ class generate extends command
 
 		$outputStyle = new OutputFormatterStyle('white', 'black', ['bold']);
 		$output->getFormatter()->setStyle('v', $outputStyle);
-	
+
 		$type = $input->getArgument('type');
 		$delete = $input->getOption('delete');
 
@@ -89,7 +89,7 @@ class generate extends command
 				str_repeat('-', strlen($type_lang)),
 				'</>',
 			]);
-		
+
 			if ($type === 'php')
 			{
 				if ($delete)
@@ -117,7 +117,7 @@ class generate extends command
 			{
 				$finder = new Finder();
 				$current_event_files = $finder->files()->in($dir)->sortByName();
-		
+
 				$files_were_deleted = false;
 
 				foreach ($current_event_files as $file)
@@ -139,7 +139,7 @@ class generate extends command
 				{
 					$io->writeln('<info>No event files were to be deleted.</>');
 				}
-	
+
 				$io->writeln('');
 
 				continue;

@@ -15,7 +15,7 @@ class events_store
     private $events = [];
 
 	public function __construct()
-	{			
+	{
 	}
 
     private function load()
@@ -23,10 +23,10 @@ class events_store
 		if (!$this->events)
 		{
 			$events = file_get_contents(self::FILE);
-			$this->events = json_decode($events, true);	
+			$this->events = json_decode($events, true);
 		}
 	}
-	
+
 	private function write()
 	{
 		file_put_contents(self::FILE, json_encode($this->events, JSON_PRETTY_PRINT));
@@ -37,8 +37,8 @@ class events_store
 		$this->events = $events;
 		$this->write();
 	}
-	
-	public function get_all():array 
+
+	public function get_all():array
 	{
 		$this->load();
 		return $this->events;

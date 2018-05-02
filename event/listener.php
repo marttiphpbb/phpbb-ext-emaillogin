@@ -111,7 +111,7 @@ class listener implements EventSubscriberInterface
 		$context = $event['context'];
 
 		$page_name = $this->user->page['page_name'];
-		$query_string = $this->user->page['query_string'];	
+		$query_string = $this->user->page['query_string'];
 		$query_string = str_replace(['&showphpbbevents=1', '&showphpbbevents=0'], '', $query_string);
 		$query_string = str_replace(['showphpbbevents=1', 'showphpbbevents=0'], '', $query_string);
 		$query_string = trim($query_string, '&');
@@ -135,6 +135,6 @@ class listener implements EventSubscriberInterface
 		];
 
 		$context['marttiphpbb_showphpbbevents'] = $template;
-		$event['context'] = $context;		
-	}	
+		$event['context'] = $context;
+	}
 }

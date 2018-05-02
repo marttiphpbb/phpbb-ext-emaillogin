@@ -25,7 +25,7 @@ class event_type
 		'template'		=> 'template events',
 		'template_acp'	=> 'acp template events',
 		'php'			=> 'PHP events',
-	];	
+	];
 
 	/** @var string */
 	private $type;
@@ -50,17 +50,17 @@ class event_type
 		return $this->type;
 	}
 
-	public function get_location():string 
+	public function get_location():string
 	{
 		return self::LOCATION[$this->type];
 	}
 
-	public static function get_all_type_locations():array 
+	public static function get_all_type_locations():array
 	{
 		return self::LOCATIONS;
 	}
 
-	public static function get_all_types():array 
+	public static function get_all_types():array
 	{
 		return array_keys(self::LOCATIONS);
 	}
@@ -82,8 +82,8 @@ class event_type
 			case '':
 			case 'all':
 				return ['php', 'template', 'template_acp'];
-				break;			
-			default: 
+				break;
+			default:
 				return [];
 				break;
 		}

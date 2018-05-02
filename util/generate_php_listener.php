@@ -39,7 +39,7 @@ class php_event_listener implements EventSubscriberInterface
 	public function add(Event $event)
 	{
 		$name = $event->getName();
-	
+
 		if (isset($this->count_ary[$name]))
 		{
 			$this->count_ary[$name]++;
@@ -49,7 +49,7 @@ class php_event_listener implements EventSubscriberInterface
 		$this->count_ary[$name] = 1;
 	}
 
-	public function get_count_ary():array 
+	public function get_count_ary():array
 	{
 		return $this->count_ary;
 	}
@@ -65,7 +65,7 @@ EOT;
 		file_put_contents(self::FILE, self::get($php_events));
 	}
 
-	/** 
+	/**
 	 * @return $string
 	 */
 	public static function read_file():string

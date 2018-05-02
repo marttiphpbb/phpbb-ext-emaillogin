@@ -20,7 +20,7 @@ use marttiphpbb\showphpbbevents\util\event_type;
 class extract extends command
 {
 	const ROOT_PATH = __DIR__ . '/../../../../';
- 
+
 	const SEARCH_LINE_PLACEHOLDER = [
 		'php'			=> '(\'%s\'',
 		'template'		=> '%s',
@@ -78,7 +78,7 @@ class extract extends command
 	}
 
 	/**
-	* @param InputInterface 
+	* @param InputInterface
 	* @param OutputInterface
 	* @return void
 	*/
@@ -121,19 +121,19 @@ class extract extends command
 					$count = 0;
 					$file = $dir . $filename;
 
-					if ($handle = fopen($file, 'r')) 
+					if ($handle = fopen($file, 'r'))
 					{
-						while (($str = fgets($handle, 4096)) !== false) 
+						while (($str = fgets($handle, 4096)) !== false)
 						{
 							$count++;
-	
+
 							if (strpos($str, $search) !== false)
 							{
 								$line = $count;
 								break;
 							}
 						}
-				
+
 						fclose($handle);
 
 						if ($line)
@@ -186,18 +186,18 @@ class extract extends command
 				$file = $dir . $filename;
 				$event_name = '';
 
-				if ($handle = fopen($file, 'r')) 
+				if ($handle = fopen($file, 'r'))
 				{
-					while (($str = fgets($handle, 4096)) !== false) 
+					while (($str = fgets($handle, 4096)) !== false)
 					{
 						$event_name = $this->get_template_event($str) ?: $event_name;
-					
+
 						if (strpos($str, '</body>') !== false)
 						{
 							break;
 						}
 					}
-			
+
 					fclose($handle);
 				}
 
@@ -229,9 +229,9 @@ class extract extends command
 				$delayed_head_events = [];
 				$first_event_in_body = '';
 
-				if ($handle = fopen($file, 'r')) 
+				if ($handle = fopen($file, 'r'))
 				{
-					while (($str = fgets($handle, 4096)) !== false) 
+					while (($str = fgets($handle, 4096)) !== false)
 					{
 						if (strpos($str, '<head') !== false)
 						{
@@ -251,7 +251,7 @@ class extract extends command
 						if (!$head_finished)
 						{
 							$event_name = $this->get_template_event($str);
-							
+
 							if ($event_name)
 							{
 								$delayed_head_events[] = $event_name;
@@ -280,7 +280,7 @@ class extract extends command
 							}
 						}
 					}
-			
+
 					fclose($handle);
 				}
 			}
@@ -305,7 +305,7 @@ class extract extends command
 				'<info>' . $type . '</>',
 				'',
 			]);
-	
+
 			$dir = self::ROOT_PATH . event_type::LOCATION[$type];
 
 			$finder = new Finder();
@@ -315,10 +315,10 @@ class extract extends command
 			foreach ($files as $name)
 			{
 				$in_select = false;
-	
-				if ($handle = fopen($name, 'r')) 
+
+				if ($handle = fopen($name, 'r'))
 				{
-					while (($str = fgets($handle, 4096)) !== false) 
+					while (($str = fgets($handle, 4096)) !== false)
 					{
 						if (strpos($str, '<select') !== false)
 						{
@@ -336,7 +336,7 @@ class extract extends command
 						}
 
 						$event_name = $this->get_template_event($str);
-					
+
 						if ($event_name)
 						{
 							$io->writeln('<v>' . $event_name . '</>');
@@ -344,7 +344,7 @@ class extract extends command
 							$found = true;
 						}
 					}
-			
+
 					fclose($handle);
 				}
 			}
@@ -358,7 +358,7 @@ class extract extends command
 		$this->events_cache->set_all($events);
 	}
 
-	private function get_template_event(string $line):string 
+	private function get_template_event(string $line):string
 	{
 		foreach (self::TEMPLATE_EVENT_TAG as $tag)
 		{

@@ -45,12 +45,12 @@ class verify extends command
 			->setDescription('For Development: Verify current events in this extension against cache.')
 			->setHelp('This command was created for the development of the marttiphpbb-showphpbbevents extension.')
 			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
-			->addOption('content', 'c', InputOption::VALUE_NONE, 'Verify content of files.')	
+			->addOption('content', 'c', InputOption::VALUE_NONE, 'Verify content of files.')
 		;
 	}
 
 	/**
-	* @param InputInterface 
+	* @param InputInterface
 	* @param OutputInterface
 	* @return void
 	*/
@@ -121,7 +121,7 @@ class verify extends command
 
 			$finder = new Finder();
 			$current_event_files = $finder->files()->in($dir)->sortByName();
-	
+
 			$count = 0;
 			$ev_files = $ev_cache = $to_delete = [];
 
@@ -169,7 +169,7 @@ class verify extends command
 			foreach ($to_add as $name)
 			{
 				$io->writeln('<info>file to add to ext: </><v>' . $name . '</>');
-			}		
+			}
 
 			$io->writeln([
 				'<info>',

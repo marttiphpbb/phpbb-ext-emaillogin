@@ -44,7 +44,7 @@ EOT;
 			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_PHP_EVENT_NAME') -}}</th>
 			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_PHP_EVENT_COUNT') -}}</th>
 			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SINCE') -}}</th>
-			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_FILENAME') -}}</th>	
+			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_FILENAME') -}}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -72,7 +72,7 @@ EOT;
 
 EOT;
 
-	public static function get(array $template_events, event_type $type, string $name):string 
+	public static function get(array $template_events, event_type $type, string $name):string
 	{
 		$data = $template_events[$type->get()][$name];
 		$in_head = $data['in_head'] ?? false;
@@ -93,8 +93,8 @@ EOT;
 		}
 
 		$content = self::get_template_event_listener(
-			$type, $name, $loc, 
-			$since, $in_head, 
+			$type, $name, $loc,
+			$since, $in_head,
 			$delayed_head_events, $include_css,
 			$render_button, $render_php_events,
 			$include_js
@@ -108,10 +108,10 @@ EOT;
 		string $name,
 		array $loc,
 		string $since = '',
-		bool $in_head = false, 
+		bool $in_head = false,
 		array $delayed_head_events = [],
 		bool $include_css = false,
-		bool $render_button = false, 
+		bool $render_button = false,
 		bool $render_php_events = false,
 		bool $include_js):string
 	{
@@ -147,7 +147,7 @@ EOT;
 
 		if ($include_js)
 		{
-			$content .= self::INCLUDEJS;			
+			$content .= self::INCLUDEJS;
 		}
 
 		return $str . str_replace('%content%', $content, self::ENABLE);
@@ -155,7 +155,7 @@ EOT;
 
 	private static function get_template_event(
 		event_type $type,
-		string $name, 
+		string $name,
 		array $loc,
 		string $since,
 		bool $is_head_event = false):string
@@ -171,7 +171,7 @@ EOT;
 		$str = '';
 
 		foreach ($loc as $file => $line)
-		{		
+		{
 			list($script_name) = explode('_', $file);
 
 			$content = self::get_template_event_link($type, $name, $loc, $file, $since, $is_head_event);
@@ -187,11 +187,11 @@ EOT;
 
 	private static function get_template_event_link(
 		event_type $type,
-		string $name, 
+		string $name,
 		array $loc,
 		string $link,
 		string $since,
-		bool $is_head_event = false):string	
+		bool $is_head_event = false):string
 	{
 		$files = array_keys($loc);
 
@@ -218,7 +218,7 @@ EOT;
 		$search = ['%class%', '%title%', '%link%', '%name%'];
 		$replace = [$class, $title, $link, $name];
 
-		// because the title attribute inside '.breadcrumbs a' gets replaced 
+		// because the title attribute inside '.breadcrumbs a' gets replaced
 		// by some Javascript in prosilver, it's moved to a <span>
 		$template = strpos($name, 'breadcrumb_') === false ? self::EVENT_LINK : self::EVENT_LINK_TITLE_SPAN;
 

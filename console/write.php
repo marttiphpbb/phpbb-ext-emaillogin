@@ -41,12 +41,12 @@ class write extends command
 		$this
 			->setName('ext-showphpbbevents:write')
 			->setDescription('For Development: Write events_data.json from cache (use ext-showphpbbevents:scrape and ext-showphpbbevents:extract first).')
-			->setHelp('This command was created for the development of the marttiphpbb-showphpbbevents extension.')	
+			->setHelp('This command was created for the development of the marttiphpbb-showphpbbevents extension.')
 		;
 	}
 
 	/**
-	* @param InputInterface 
+	* @param InputInterface
 	* @param OutputInterface
 	* @return void
 	*/
@@ -62,7 +62,7 @@ class write extends command
 		if (!$events)
 		{
 			$io->writeln('<info>no events were found in cache.</>');
-			return;			
+			return;
 		}
 
 		$this->events_store->set_all($events);

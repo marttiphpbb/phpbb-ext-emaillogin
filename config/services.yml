@@ -12,7 +12,7 @@ services:
     marttiphpbb.showphpbbevents.php_event_listener:
         class: marttiphpbb\showphpbbevents\event\php_event_listener
         tags:
-            - { name: event.listener }            
+            - { name: event.listener }
 
     marttiphpbb.showphpbbevents.service.events_cache:
         class: marttiphpbb\showphpbbevents\service\events_cache
@@ -22,22 +22,22 @@ services:
 
     marttiphpbb.showphpbbevents.service.events_store:
         class: marttiphpbb\showphpbbevents\service\events_store
-            
+
     marttiphpbb.showphpbbevents.console.scrape:
         class: marttiphpbb\showphpbbevents\console\scrape
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'           
+            - '@marttiphpbb.showphpbbevents.service.events_cache'
         tags:
-            - { name: console.command }    
+            - { name: console.command }
 
     marttiphpbb.showphpbbevents.console.extract:
         class: marttiphpbb\showphpbbevents\console\extract
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'           
+            - '@marttiphpbb.showphpbbevents.service.events_cache'
         tags:
-            - { name: console.command } 
+            - { name: console.command }
 
     marttiphpbb.showphpbbevents.console.verify:
         class: marttiphpbb\showphpbbevents\console\verify
@@ -69,6 +69,6 @@ services:
         arguments:
             - '@user'
             - '@marttiphpbb.showphpbbevents.service.events_cache'
-            - '@marttiphpbb.showphpbbevents.service.events_store'           
+            - '@marttiphpbb.showphpbbevents.service.events_store'
         tags:
-            - { name: console.command } 
+            - { name: console.command }

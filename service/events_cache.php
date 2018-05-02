@@ -19,14 +19,14 @@ class events_cache
 
 	/** @var events_store */
 	private $events_store;
-    
+
     /** @var array */
     private $events = [];
 
 	public function __construct(cache $cache, events_store $events_store)
 	{
 		$this->cache = $cache;
-		$this->events_store = $events_store;			
+		$this->events_store = $events_store;
 	}
 
     private function load()
@@ -45,7 +45,7 @@ class events_cache
 
     private function write()
     {
-		$this->cache->put(self::LOCATION, $this->events);		
+		$this->cache->put(self::LOCATION, $this->events);
     }
 
     public function set_all(array $events)
@@ -53,8 +53,8 @@ class events_cache
 		$this->events = $events;
 		$this->write();
 	}
-	
-	public function get_all():array 
+
+	public function get_all():array
 	{
 		$this->load();
 		return $this->events;

@@ -11,7 +11,7 @@ a.showphpbbevents, a.showphpbbevents-head, a.showphpbbevents-hide, a.showphpbbev
 
 a.showphpbbevents
 {
-    background-color: black;    
+    background-color: black;
 }
 
 a.showphpbbevents-head, a.showphpbbevents-select
@@ -34,12 +34,12 @@ table.marttiphpbb-showphpbbevents-php
     border-collapse: collapse;
     border: 1px solid black;
     margin: 10px;
-    font-size: 15px;  
-    color: black; 
+    font-size: 15px;
+    color: black;
     background: white;
 }
 
-table.marttiphpbb-showphpbbevents-php tbody tr:nth-child(odd) 
+table.marttiphpbb-showphpbbevents-php tbody tr:nth-child(odd)
 {
     background: lightgrey;
 }
