@@ -1,4 +1,8 @@
-a.showphpbbevents, a.showphpbbevents-head, a.showphpbbevents-hide, a.showphpbbevents-show
+a.showphpbbevents, 
+a.showphpbbevents-head,
+a.showphpbbevents-option,
+a.showphpbbevents-hide, 
+a.showphpbbevents-show
 {
     color: white;
     border: 1px solid white;
@@ -14,7 +18,7 @@ a.showphpbbevents
     background-color: black;
 }
 
-a.showphpbbevents-head, a.showphpbbevents-select
+a.showphpbbevents-head, a.showphpbbevents-option
 {
 	background-color: darkgrey;
 }

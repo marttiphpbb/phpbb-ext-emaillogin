@@ -34,7 +34,7 @@ EOT;
 	const CLASS_TEMPLATE_EVENT_HEAD = 'showphpbbevents-head';
 	const EVENT_LINK = "<a class=\"%class%\" title=\"%title%\" href=\"%link%\">%name%</a>\n";
 	const EVENT_LINK_TITLE_SPAN = "<a class=\"%class%\" href=\"%link%\"><span title=\"%title%\">%name%</span></a>\n";
-	const EVENT_SELECT_OPTION = "<option value\"%name%\" data-marttiphpbb-showphpbbevents-title=\"%title%\" data-marttiphpbb-showphpbbevents-link=\"%link%\">[ %name% ]</option>\n";
+	const EVENT_SELECT_OPTION = "<option value\"%name%\" data-marttiphpbb-showphpbbevents-title=\"%title%\" data-marttiphpbb-showphpbbevents-link=\"%link%\" data-marttiphpbb-showphpbbevents-name=\"%name%\">[ %name% ]</option>\n";
 	const EVENT_HEAD_COMMENT = "{# Rendering of the head events is delayed until the first event in the body #}\n";
 	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-showphpbbevents:generate command. #}\n";
 	const PHP_EVENTS = <<<'EOT'
