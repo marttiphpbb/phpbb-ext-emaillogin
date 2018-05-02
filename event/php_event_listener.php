@@ -1,12 +1,12 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb showphpbbevents
-* @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb emaillogin
+* @copyright (c) 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
-* This file was generated with the ext-showphpbbevents:generate command
+* This file was generated with the ext-emaillogin:generate command
 */
 
-namespace marttiphpbb\showphpbbevents\event;
+namespace marttiphpbb\emaillogin\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\Event;

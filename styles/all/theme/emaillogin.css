@@ -1,8 +1,8 @@
-a.showphpbbevents, 
-a.showphpbbevents-head,
-a.showphpbbevents-option,
-a.showphpbbevents-hide, 
-a.showphpbbevents-show
+a.emaillogin, 
+a.emaillogin-head,
+a.emaillogin-option,
+a.emaillogin-hide, 
+a.emaillogin-show
 {
     color: white;
     border: 1px solid white;
@@ -13,27 +13,27 @@ a.showphpbbevents-show
     line-height: 14px;
 }
 
-a.showphpbbevents
+a.emaillogin
 {
     background-color: black;
 }
 
-a.showphpbbevents-head, a.showphpbbevents-option
+a.emaillogin-head, a.emaillogin-option
 {
 	background-color: darkgrey;
 }
 
-a.showphpbbevents-hide
+a.emaillogin-hide
 {
 	background-color: red;
 }
 
-a.showphpbbevents-show
+a.emaillogin-show
 {
 	background-color: green;
 }
 
-table.marttiphpbb-showphpbbevents-php
+table.marttiphpbb-emaillogin-php
 {
     border-collapse: collapse;
     border: 1px solid black;
@@ -43,12 +43,12 @@ table.marttiphpbb-showphpbbevents-php
     background: white;
 }
 
-table.marttiphpbb-showphpbbevents-php tbody tr:nth-child(odd)
+table.marttiphpbb-emaillogin-php tbody tr:nth-child(odd)
 {
     background: lightgrey;
 }
 
-table.marttiphpbb-showphpbbevents-php th, table.marttiphpbb-showphpbbevents-php td
+table.marttiphpbb-emaillogin-php th, table.marttiphpbb-emaillogin-php td
 {
     padding: 5px;
 }

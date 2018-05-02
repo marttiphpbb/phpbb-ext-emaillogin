@@ -1,55 +1,55 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb showphpbbevents
-* @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb emaillogin
+* @copyright (c) 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\showphpbbevents\util;
+namespace marttiphpbb\emaillogin\util;
 
-use marttiphpbb\showphpbbevents\util\event_type;
+use marttiphpbb\emaillogin\util\event_type;
 
 class generate_template_listener
 {
 	const LINK_BASE = 'https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/';
 	const LINK_LINE = '#L';
-	const INCLUDECSS = "{%- INCLUDECSS '@marttiphpbb_showphpbbevents/showphpbbevents.css' -%}\n";
-	const INCLUDEJS = "{%- INCLUDEJS '@marttiphpbb_showphpbbevents/js/showphpbbevents.js' -%}\n";
-	const ENABLE = "{%- if marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
-	const DISABLE = "{%- if not marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
+	const INCLUDECSS = "{%- INCLUDECSS '@marttiphpbb_emaillogin/emaillogin.css' -%}\n";
+	const INCLUDEJS = "{%- INCLUDEJS '@marttiphpbb_emaillogin/js/emaillogin.js' -%}\n";
+	const ENABLE = "{%- if marttiphpbb_emaillogin.enable -%}\n%content%{%- endif -%}\n";
+	const DISABLE = "{%- if not marttiphpbb_emaillogin.enable -%}\n%content%{%- endif -%}\n";
 	const BUTTON_HIDE = <<<'EOT'
-<a class="showphpbbevents-hide" href="{{- marttiphpbb_showphpbbevents.u_hide -}}" title="{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_HIDE_EXPLAIN') -}}">
-	{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_HIDE') -}}
+<a class="emaillogin-hide" href="{{- marttiphpbb_emaillogin.u_hide -}}" title="{{- lang('MARTTIPHPBB_EMAILLOGIN_HIDE_EXPLAIN') -}}">
+	{{- lang('MARTTIPHPBB_EMAILLOGIN_HIDE') -}}
 </a>
 EOT;
 	const BUTTON_SHOW = <<<'EOT'
-<a class="showphpbbevents-show" href="{{- marttiphpbb_showphpbbevents.u_show -}}" title="{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SHOW_EXPLAIN') -}}">
-	{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SHOW') -}}
+<a class="emaillogin-show" href="{{- marttiphpbb_emaillogin.u_show -}}" title="{{- lang('MARTTIPHPBB_EMAILLOGIN_SHOW_EXPLAIN') -}}">
+	{{- lang('MARTTIPHPBB_EMAILLOGIN_SHOW') -}}
 </a>
 EOT;
 	const SCRIPT_NAME_CONDITION = "{%- if SCRIPT_NAME == '%script_name%' -%}\n%content%{%- endif -%}\n";
 	const TITLE_NEWLINE = '&#10;';
 	const THIS_FILE_INDICATOR = '*';
-	const CLASS_TEMPLATE_EVENT = 'showphpbbevents';
-	const CLASS_TEMPLATE_EVENT_HEAD = 'showphpbbevents-head';
+	const CLASS_TEMPLATE_EVENT = 'emaillogin';
+	const CLASS_TEMPLATE_EVENT_HEAD = 'emaillogin-head';
 	const EVENT_LINK = "<a class=\"%class%\" title=\"%title%\" href=\"%link%\">%name%</a>\n";
 	const EVENT_LINK_TITLE_SPAN = "<a class=\"%class%\" href=\"%link%\"><span title=\"%title%\">%name%</span></a>\n";
-	const EVENT_SELECT_OPTION = "<option value\"%name%\" data-marttiphpbb-showphpbbevents-title=\"%title%\" data-marttiphpbb-showphpbbevents-link=\"%link%\" data-marttiphpbb-showphpbbevents-name=\"%name%\">[ %name% ]</option>\n";
+	const EVENT_SELECT_OPTION = "<option value\"%name%\" data-marttiphpbb-emaillogin-title=\"%title%\" data-marttiphpbb-emaillogin-link=\"%link%\" data-marttiphpbb-emaillogin-name=\"%name%\">[ %name% ]</option>\n";
 	const EVENT_HEAD_COMMENT = "{# Rendering of the head events is delayed until the first event in the body #}\n";
-	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-showphpbbevents:generate command. #}\n";
+	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-emaillogin:generate command. #}\n";
 	const PHP_EVENTS = <<<'EOT'
 <br>
-<table class="marttiphpbb-showphpbbevents-php">
+<table class="marttiphpbb-emaillogin-php">
 	<thead>
 		<tr>
-			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_PHP_EVENT_NAME') -}}</th>
-			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_PHP_EVENT_COUNT') -}}</th>
-			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SINCE') -}}</th>
-			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_FILENAME') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_EMAILLOGIN_PHP_EVENT_NAME') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_EMAILLOGIN_PHP_EVENT_COUNT') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_EMAILLOGIN_SINCE') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_EMAILLOGIN_FILENAME') -}}</th>
 		</tr>
 	</thead>
 	<tbody>
-	{%- for name, e in marttiphpbb_showphpbbevents.php -%}
+	{%- for name, e in marttiphpbb_emaillogin.php -%}
 		<tr>
 			<td>{{- name -}}</td>
 			<td>{{- e.count -}}</td>

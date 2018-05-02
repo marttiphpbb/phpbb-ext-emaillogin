@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb showphpbbevents
-* @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb emaillogin
+* @copyright (c) 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\showphpbbevents\console;
+namespace marttiphpbb\emaillogin\console;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,10 +16,10 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Finder\Finder;
 use phpbb\console\command\command;
 use phpbb\user;
-use marttiphpbb\showphpbbevents\service\events_store;
-use marttiphpbb\showphpbbevents\util\event_type;
-use marttiphpbb\showphpbbevents\util\generate_php_listener;
-use marttiphpbb\showphpbbevents\util\generate_template_listener;
+use marttiphpbb\emaillogin\service\events_store;
+use marttiphpbb\emaillogin\util\event_type;
+use marttiphpbb\emaillogin\util\generate_php_listener;
+use marttiphpbb\emaillogin\util\generate_template_listener;
 
 class generate extends command
 {
@@ -40,9 +40,9 @@ class generate extends command
 	protected function configure()
 	{
 		$this
-			->setName('ext-showphpbbevents:generate')
+			->setName('ext-emaillogin:generate')
 			->setDescription('For Development: Generate and write the event listener files from the data of events_data.json.')
-			->setHelp('This command was created for the development of the marttiphpbb-showphpbbevents extension.')
+			->setHelp('This command was created for the development of the marttiphpbb-emaillogin extension.')
 			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
 			->addOption('delete', 'd', InputOption::VALUE_NONE, 'Delete obsolete files (events not present in events_data.json)')
 		;

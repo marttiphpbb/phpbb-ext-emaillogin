@@ -1,11 +1,11 @@
 {
-	"name": "marttiphpbb/showphpbbevents",
+	"name": "marttiphpbb/emaillogin",
 	"type": "phpbb-extension",
-	"description": "This extension for developers shows all phpBB core template and PHP events (phpBB 3.2.2)",
-	"homepage": "https://github.com/marttiphpbb/phpbb-ext-showphpbbevents",
+	"description": "phpBB 3.2 extension to provide login with email",
+	"homepage": "https://github.com/marttiphpbb/phpbb-ext-emaillogin",
 	"version": "1.6.0",
 	"time": "2018-05-02",
-	"keywords": ["phpbb", "extension", "template", "PHP", "events", "development"],
+	"keywords": ["phpbb", "extension", "email", "login"],
 	"license": "GPL-2.0",
 	"authors": [{
 			"name": "martti",
@@ -14,20 +14,19 @@
 			"role": "Developer"
 		}],
 	"require": {
-		"php": ">=7",
-		"fabpot/goutte": "^3.2"
+		"php": ">=7"
 	},
 	"require-dev": {
 	},
 	"extra": {
-		"display-name": "Show phpBB Events",
+		"display-name": "Email Login",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.2.0"
 		},
 		"version-check": {
 			"host": "marttiphpbb.github.io",
 			"directory": "/version",
-			"filename": "showphpbbevents.json"
+			"filename": "emaillogin.json"
 		}
 	}
 }

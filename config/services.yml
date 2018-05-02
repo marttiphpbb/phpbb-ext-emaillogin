@@ -1,74 +1,74 @@
 services:
-    marttiphpbb.showphpbbevents.listener:
-        class: marttiphpbb\showphpbbevents\event\listener
+    marttiphpbb.emaillogin.listener:
+        class: marttiphpbb\emaillogin\event\listener
         arguments:
             - '@request'
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'
-            - '@marttiphpbb.showphpbbevents.php_event_listener'
+            - '@marttiphpbb.emaillogin.service.events_cache'
+            - '@marttiphpbb.emaillogin.php_event_listener'
         tags:
             - { name: event.listener }
 
-    marttiphpbb.showphpbbevents.php_event_listener:
-        class: marttiphpbb\showphpbbevents\event\php_event_listener
+    marttiphpbb.emaillogin.php_event_listener:
+        class: marttiphpbb\emaillogin\event\php_event_listener
         tags:
             - { name: event.listener }
 
-    marttiphpbb.showphpbbevents.service.events_cache:
-        class: marttiphpbb\showphpbbevents\service\events_cache
+    marttiphpbb.emaillogin.service.events_cache:
+        class: marttiphpbb\emaillogin\service\events_cache
         arguments:
             - '@cache.driver'
-            - '@marttiphpbb.showphpbbevents.service.events_store'
+            - '@marttiphpbb.emaillogin.service.events_store'
 
-    marttiphpbb.showphpbbevents.service.events_store:
-        class: marttiphpbb\showphpbbevents\service\events_store
+    marttiphpbb.emaillogin.service.events_store:
+        class: marttiphpbb\emaillogin\service\events_store
 
-    marttiphpbb.showphpbbevents.console.scrape:
-        class: marttiphpbb\showphpbbevents\console\scrape
+    marttiphpbb.emaillogin.console.scrape:
+        class: marttiphpbb\emaillogin\console\scrape
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'
+            - '@marttiphpbb.emaillogin.service.events_cache'
         tags:
             - { name: console.command }
 
-    marttiphpbb.showphpbbevents.console.extract:
-        class: marttiphpbb\showphpbbevents\console\extract
+    marttiphpbb.emaillogin.console.extract:
+        class: marttiphpbb\emaillogin\console\extract
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'
+            - '@marttiphpbb.emaillogin.service.events_cache'
         tags:
             - { name: console.command }
 
-    marttiphpbb.showphpbbevents.console.verify:
-        class: marttiphpbb\showphpbbevents\console\verify
+    marttiphpbb.emaillogin.console.verify:
+        class: marttiphpbb\emaillogin\console\verify
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'
+            - '@marttiphpbb.emaillogin.service.events_cache'
         tags:
             - { name: console.command }
 
-    marttiphpbb.showphpbbevents.console.generate:
-        class: marttiphpbb\showphpbbevents\console\generate
+    marttiphpbb.emaillogin.console.generate:
+        class: marttiphpbb\emaillogin\console\generate
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_store'
+            - '@marttiphpbb.emaillogin.service.events_store'
         tags:
             - { name: console.command }
 
-    marttiphpbb.showphpbbevents.console.write:
-        class: marttiphpbb\showphpbbevents\console\write
+    marttiphpbb.emaillogin.console.write:
+        class: marttiphpbb\emaillogin\console\write
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'
-            - '@marttiphpbb.showphpbbevents.service.events_store'
+            - '@marttiphpbb.emaillogin.service.events_cache'
+            - '@marttiphpbb.emaillogin.service.events_store'
         tags:
             - { name: console.command }
 
-    marttiphpbb.showphpbbevents.console.show:
-        class: marttiphpbb\showphpbbevents\console\show
+    marttiphpbb.emaillogin.console.show:
+        class: marttiphpbb\emaillogin\console\show
         arguments:
             - '@user'
-            - '@marttiphpbb.showphpbbevents.service.events_cache'
-            - '@marttiphpbb.showphpbbevents.service.events_store'
+            - '@marttiphpbb.emaillogin.service.events_cache'
+            - '@marttiphpbb.emaillogin.service.events_store'
         tags:
             - { name: console.command }

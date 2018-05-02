@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb showphpbbevents
-* @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb emaillogin
+* @copyright (c) 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\showphpbbevents\console;
+namespace marttiphpbb\emaillogin\console;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,8 +15,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
-use marttiphpbb\showphpbbevents\service\events_cache;
-use marttiphpbb\showphpbbevents\service\events_store;
+use marttiphpbb\emaillogin\service\events_cache;
+use marttiphpbb\emaillogin\service\events_store;
 
 class write extends command
 {
@@ -39,9 +39,9 @@ class write extends command
 	protected function configure()
 	{
 		$this
-			->setName('ext-showphpbbevents:write')
-			->setDescription('For Development: Write events_data.json from cache (use ext-showphpbbevents:scrape and ext-showphpbbevents:extract first).')
-			->setHelp('This command was created for the development of the marttiphpbb-showphpbbevents extension.')
+			->setName('ext-emaillogin:write')
+			->setDescription('For Development: Write events_data.json from cache (use ext-emaillogin:scrape and ext-emaillogin:extract first).')
+			->setHelp('This command was created for the development of the marttiphpbb-emaillogin extension.')
 		;
 	}
 
