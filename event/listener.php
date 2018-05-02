@@ -1,18 +1,18 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb showphpbbevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\templateevents\event;
+namespace marttiphpbb\showphpbbevents\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use phpbb\event\data as event;
 use phpbb\request\request;
 use phpbb\user;
-use marttiphpbb\templateevents\service\events_cache;
-use marttiphpbb\templateevents\event\php_event_listener;
+use marttiphpbb\showphpbbevents\service\events_cache;
+use marttiphpbb\showphpbbevents\event\php_event_listener;
 
 /**
 * Event listener
@@ -62,7 +62,7 @@ class listener implements EventSubscriberInterface
 		$lang_set_ext = $event['lang_set_ext'];
 
 		$lang_set_ext[] = [
-			'ext_name' => 'marttiphpbb/templateevents',
+			'ext_name' => 'marttiphpbb/showphpbbevents',
 			'lang_set' => 'common',
 		];
 
@@ -75,13 +75,13 @@ class listener implements EventSubscriberInterface
 
 		if (is_string($params))
 		{
-			if (strpos($params, 'templateevents=0') !== false)
+			if (strpos($params, 'showphpbbevents=0') !== false)
 			{
 				return;
 			}
 		}
 
-		if ($this->request->variable('templateevents', 0))
+		if ($this->request->variable('showphpbbevents', 0))
 		{
 			if (is_string($params))
 			{
@@ -90,7 +90,7 @@ class listener implements EventSubscriberInterface
 					$params .= '&';
 				}
 
-				$params .= 'templateevents=1';
+				$params .= 'showphpbbevents=1';
 			}
 			else
 			{
@@ -99,7 +99,7 @@ class listener implements EventSubscriberInterface
 					$params = [];
 				}
 
-				$params['templateevents'] = 1;
+				$params['showphpbbevents'] = 1;
 			}
 
 			$event['params'] = $params;
@@ -112,8 +112,8 @@ class listener implements EventSubscriberInterface
 
 		$page_name = $this->user->page['page_name'];
 		$query_string = $this->user->page['query_string'];	
-		$query_string = str_replace(['&templateevents=1', '&templateevents=0'], '', $query_string);
-		$query_string = str_replace(['templateevents=1', 'templateevents=0'], '', $query_string);
+		$query_string = str_replace(['&showphpbbevents=1', '&showphpbbevents=0'], '', $query_string);
+		$query_string = str_replace(['showphpbbevents=1', 'showphpbbevents=0'], '', $query_string);
 		$query_string = trim($query_string, '&');
 		$query_string .= $query_string ? '&' : '';
 
@@ -128,13 +128,13 @@ class listener implements EventSubscriberInterface
 		}
 
 		$template = [
-			'enable'	=> $this->request->variable('templateevents', 0) ? true : false,
-			'u_hide'	=> append_sid($page_name, $query_string . 'templateevents=0'),
-			'u_show'	=> append_sid($page_name, $query_string . 'templateevents=1'),
+			'enable'	=> $this->request->variable('showphpbbevents', 0) ? true : false,
+			'u_hide'	=> append_sid($page_name, $query_string . 'showphpbbevents=0'),
+			'u_show'	=> append_sid($page_name, $query_string . 'showphpbbevents=1'),
 			'php'		=> $php_events,
 		];
 
-		$context['marttiphpbb_templateevents'] = $template;
+		$context['marttiphpbb_showphpbbevents'] = $template;
 		$event['context'] = $context;		
 	}	
 }

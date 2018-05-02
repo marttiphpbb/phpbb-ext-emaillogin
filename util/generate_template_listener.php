@@ -1,36 +1,36 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb showphpbbevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\templateevents\util;
+namespace marttiphpbb\showphpbbevents\util;
 
-use marttiphpbb\templateevents\util\event_type;
+use marttiphpbb\showphpbbevents\util\event_type;
 
 class generate_template_listener
 {
 	const LINK_BASE = 'https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/';
 	const LINK_LINE = '#L';
-	const INCLUDECSS = "{%- INCLUDECSS '@marttiphpbb_templateevents/templateevents.css' -%}\n";
-	const INCLUDEJS = "{%- INCLUDEJS '@marttiphpbb_templateevents/js/templateevents.js' -%}\n";
-	const ENABLE = "{%- if marttiphpbb_templateevents.enable -%}\n%content%{%- endif -%}\n";
-	const DISABLE = "{%- if not marttiphpbb_templateevents.enable -%}\n%content%{%- endif -%}\n";
-	const BUTTON_HIDE = "<a class=\"templateevents-hide\" href=\"{{- marttiphpbb_templateevents.u_hide -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_HIDE') -}}</a>\n";
-	const BUTTON_SHOW = "<a class=\"templateevents-show\" href=\"{{- marttiphpbb_templateevents.u_show -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SHOW') -}}</a>\n";
+	const INCLUDECSS = "{%- INCLUDECSS '@marttiphpbb_showphpbbevents/showphpbbevents.css' -%}\n";
+	const INCLUDEJS = "{%- INCLUDEJS '@marttiphpbb_showphpbbevents/js/showphpbbevents.js' -%}\n";
+	const ENABLE = "{%- if marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
+	const DISABLE = "{%- if not marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
+	const BUTTON_HIDE = "<a class=\"showphpbbevents-hide\" href=\"{{- marttiphpbb_showphpbbevents.u_hide -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_HIDE') -}}</a>\n";
+	const BUTTON_SHOW = "<a class=\"showphpbbevents-show\" href=\"{{- marttiphpbb_showphpbbevents.u_show -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SHOW') -}}</a>\n";
 	const SCRIPT_NAME_CONDITION = "{%- if SCRIPT_NAME == '%script_name%' -%}\n%content%{%- endif -%}\n";
 	const TITLE_NEWLINE = '&#10;';
 	const THIS_FILE_INDICATOR = '*';
-	const CLASS_TEMPLATE_EVENT = 'templateevents';
-	const CLASS_TEMPLATE_EVENT_HEAD = 'templateevents-head';
+	const CLASS_TEMPLATE_EVENT = 'showphpbbevents';
+	const CLASS_TEMPLATE_EVENT_HEAD = 'showphpbbevents-head';
 	const EVENT_LINK = "<a class=\"%class%\" title=\"%title%\" href=\"%link%\">%name%</a>\n";
 	const EVENT_LINK_TITLE_SPAN = "<a class=\"%class%\" href=\"%link%\"><span title=\"%title%\">%name%</span></a>\n";
 	const EVENT_HEAD_COMMENT = "{# Rendering of the head events is delayed until the first event in the body #}\n";
-	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-templateevents:generate command. #}\n";
+	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-showphpbbevents:generate command. #}\n";
 	const PHP_EVENTS = <<<'EOT'
 <br>
-<table class="marttiphpbb-templateevents-php">
+<table class="marttiphpbb-showphpbbevents-php">
 	<thead>
 		<tr>
 			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME') -}}</th>
@@ -40,7 +40,7 @@ class generate_template_listener
 		</tr>
 	</thead>
 	<tbody>
-	{%- for name, e in marttiphpbb_templateevents.php -%}
+	{%- for name, e in marttiphpbb_showphpbbevents.php -%}
 		<tr>
 			<td>{{- name -}}</td>
 			<td>{{- e.count -}}</td>

@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb showphpbbevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\templateevents\console;
+namespace marttiphpbb\showphpbbevents\console;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,12 +15,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
-use marttiphpbb\templateevents\service\events_cache;
-use marttiphpbb\templateevents\util\event_type;
-use marttiphpbb\templateevents\util\generate_php_listener;
-use marttiphpbb\templateevents\util\generate_template_listener;
+use marttiphpbb\showphpbbevents\service\events_cache;
+use marttiphpbb\showphpbbevents\util\event_type;
+use marttiphpbb\showphpbbevents\util\generate_php_listener;
+use marttiphpbb\showphpbbevents\util\generate_template_listener;
 use Symfony\Component\Finder\Finder;
-use marttiphpbb\templateevents\model\template;
+use marttiphpbb\showphpbbevents\model\template;
 
 class verify extends command
 {
@@ -41,9 +41,9 @@ class verify extends command
 	protected function configure()
 	{
 		$this
-			->setName('ext-templateevents:verify')
+			->setName('ext-showphpbbevents:verify')
 			->setDescription('For Development: Verify current events in this extension against cache.')
-			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')
+			->setHelp('This command was created for the development of the marttiphpbb-showphpbbevents extension.')
 			->addArgument('type', InputArgument::OPTIONAL, 'all (default), template, acp or php')
 			->addOption('content', 'c', InputOption::VALUE_NONE, 'Verify content of files.')	
 		;

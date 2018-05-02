@@ -1,8 +1,8 @@
-{# This file was generated with the ext-templateevents:generate command. #}
-{%- if marttiphpbb_templateevents.enable -%}
-<a class="templateevents" title="3.1.0-a1&#10;overall_footer.html" href="https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/adm/style/overall_footer.html#L42">acp_overall_footer_after</a>
+{# This file was generated with the ext-showphpbbevents:generate command. #}
+{%- if marttiphpbb_showphpbbevents.enable -%}
+<a class="showphpbbevents" title="3.1.0-a1&#10;overall_footer.html" href="https://github.com/phpbb/phpbb/tree/prep-release-3.2.2/phpBB/adm/style/overall_footer.html#L42">acp_overall_footer_after</a>
 <br>
-<table class="marttiphpbb-templateevents-php">
+<table class="marttiphpbb-showphpbbevents-php">
 	<thead>
 		<tr>
 			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME') -}}</th>
@@ -12,7 +12,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	{%- for name, e in marttiphpbb_templateevents.php -%}
+	{%- for name, e in marttiphpbb_showphpbbevents.php -%}
 		<tr>
 			<td>{{- name -}}</td>
 			<td>{{- e.count -}}</td>
@@ -33,5 +33,5 @@
 	{%- endfor -%}
 	</tbody>
 </table>
-{%- INCLUDEJS '@marttiphpbb_templateevents/js/templateevents.js' -%}
+{%- INCLUDEJS '@marttiphpbb_showphpbbevents/js/showphpbbevents.js' -%}
 {%- endif -%}

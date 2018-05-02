@@ -1,8 +1,8 @@
 {
-	"name": "marttiphpbb/templateevents",
+	"name": "marttiphpbb/showphpbbevents",
 	"type": "phpbb-extension",
 	"description": "This extension for developers shows all core template and PHP events (phpBB 3.2.2)",
-	"homepage": "https://github.com/marttiphpbb/phpbb-ext-templateevents",
+	"homepage": "https://github.com/marttiphpbb/phpbb-ext-showphpbbevents",
 	"version": "1.5.1",
 	"time": "2018-04-15",
 	"keywords": ["phpbb", "extension", "template", "events", "development"],
@@ -21,14 +21,14 @@
 		"phpbb/epv": "dev-master"
 	},
 	"extra": {
-		"display-name": "Template Events",
+		"display-name": "Show phpBB Events",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.2.0"
 		},
 		"version-check": {
 			"host": "marttiphpbb.github.io",
 			"directory": "/version",
-			"filename": "templateevents.json"
+			"filename": "showphpbbevents.json"
 		}
 	}
 }

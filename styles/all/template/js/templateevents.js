@@ -1,5 +1,5 @@
 ;(function($, window, document) {
 	$('document').ready(function(){
-		$('ul > a.templateevents, ol > a.templateevents').wrap('<li></li>');
+		$('ul > a.showphpbbevents, ol > a.showphpbbevents').wrap('<li></li>');
 	});
 })(jQuery, window, document);

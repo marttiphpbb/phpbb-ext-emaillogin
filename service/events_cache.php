@@ -1,18 +1,18 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb showphpbbevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\templateevents\service;
+namespace marttiphpbb\showphpbbevents\service;
 
 use phpbb\cache\driver\driver_interface as cache;
-use marttiphpbb\templateevents\service\events_store;
+use marttiphpbb\showphpbbevents\service\events_store;
 
 class events_cache
 {
-	const LOCATION = '_marttiphpbb_templateevents_events';
+	const LOCATION = '_marttiphpbb_showphpbbevents_events';
 
 	/** @var cache */
     private $cache;

@@ -1,12 +1,12 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb showphpbbevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
-* This file was generated with the ext-templateevents:generate command
+* This file was generated with the ext-showphpbbevents:generate command
 */
 
-namespace marttiphpbb\templateevents\event;
+namespace marttiphpbb\showphpbbevents\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\Event;

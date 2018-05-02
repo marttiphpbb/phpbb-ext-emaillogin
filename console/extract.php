@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb showphpbbevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\templateevents\console;
+namespace marttiphpbb\showphpbbevents\console;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,8 +13,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
-use marttiphpbb\templateevents\service\events_cache;
-use marttiphpbb\templateevents\util\event_type;
+use marttiphpbb\showphpbbevents\service\events_cache;
+use marttiphpbb\showphpbbevents\util\event_type;
 
 class extract extends command
 {
@@ -70,9 +70,9 @@ class extract extends command
 	protected function configure()
 	{
 		$this
-			->setName('ext-templateevents:extract')
+			->setName('ext-showphpbbevents:extract')
 			->setDescription('For Development: Extract events data from the local phpBB files and load into cache.')
-			->setHelp('This command was created for the development of the marttiphpbb-templateevents extension.')
+			->setHelp('This command was created for the development of the marttiphpbb-showphpbbevents extension.')
 		;
 	}
 
@@ -95,7 +95,7 @@ class extract extends command
 
 		if (!$events)
 		{
-			$io->writeln('<info>No events in cache. Run ext-templateevents:scrape first</>');
+			$io->writeln('<info>No events in cache. Run ext-showphpbbevents:scrape first</>');
 			return;
 		}
 

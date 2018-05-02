@@ -2,10 +2,10 @@
 
 /**
 *
-* Template Events extension for the phpBB Forum Software package.
+* Show phpBB Events extension for the phpBB Forum Software package.
 * French translation by Galixte (http://www.galixte.com)
 *
-* phpBB Extension - marttiphpbb templateevents
+* phpBB Extension - marttiphpbb showphpbbevents
 * @copyright (c) 2014 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
