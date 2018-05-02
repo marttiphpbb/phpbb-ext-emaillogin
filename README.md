@@ -1,5 +1,7 @@
 # phpBB Extension - marttiphpbb Show phpBB Events
 
+[Topic on phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2470356)
+
 **This extension is a helper tool for developing (other extenstions and styles). It should not be used on a live forum.**
 
 **This extension was formerly called "Template Events", but since it shows now also the PHP events it has been renamed.**
