@@ -3408,7 +3408,8 @@
                 "mcp_forum.html": 143
             },
             "since": "3.1.11-RC1",
-            "explain": "Add additional options to actions select"
+            "explain": "Add additional options to actions select",
+            "is_select_option": true
         },
         "mcp_forum_actions_before": {
             "loc": {

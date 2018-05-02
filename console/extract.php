@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Finder\Finder;
 use phpbb\console\command\command;
 use phpbb\user;
 use marttiphpbb\showphpbbevents\service\events_cache;
@@ -285,6 +286,74 @@ class extract extends command
 			}
 		}
 
+		$io->writeln([
+			'',
+			'<comment>Search Template Events in html select.</>',
+			'<comment>--------------------------------------</>',
+			'',
+		]);
+
+		foreach ($events as $type => $event)
+		{
+			if ($type === 'php')
+			{
+				continue;
+			}
+
+			$io->writeln([
+				'',
+				'<info>' . $type . '</>',
+				'',
+			]);
+	
+			$dir = self::ROOT_PATH . event_type::LOCATION[$type];
+
+			$finder = new Finder();
+			$files = $finder->files()->in($dir)->sortByName();
+			$found = false;
+
+			foreach ($files as $name)
+			{
+				$in_select = false;
+	
+				if ($handle = fopen($name, 'r')) 
+				{
+					while (($str = fgets($handle, 4096)) !== false) 
+					{
+						if (strpos($str, '<select') !== false)
+						{
+							$in_select = true;
+						}
+
+						if (strpos($str, '</select>') !== false)
+						{
+							$in_select = false;
+						}
+
+						if (!$in_select)
+						{
+							continue;
+						}
+
+						$event_name = $this->get_template_event($str);
+					
+						if ($event_name)
+						{
+							$io->writeln('<v>' . $event_name . '</>');
+							$events[$type][$event_name]['is_select_option'] = true;
+							$found = true;
+						}
+					}
+			
+					fclose($handle);
+				}
+			}
+
+			if (!$found)
+			{
+				$io->writeln(['None found.', '']);
+			}
+		}
 
 		$this->events_cache->set_all($events);
 	}
