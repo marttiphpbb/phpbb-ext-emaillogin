@@ -18,7 +18,6 @@
 		"fabpot/goutte": "^3.2"
 	},
 	"require-dev": {
-		"phpbb/epv": "dev-master"
 	},
 	"extra": {
 		"display-name": "Show phpBB Events",
