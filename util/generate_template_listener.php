@@ -34,6 +34,7 @@ EOT;
 	const CLASS_TEMPLATE_EVENT_HEAD = 'showphpbbevents-head';
 	const EVENT_LINK = "<a class=\"%class%\" title=\"%title%\" href=\"%link%\">%name%</a>\n";
 	const EVENT_LINK_TITLE_SPAN = "<a class=\"%class%\" href=\"%link%\"><span title=\"%title%\">%name%</span></a>\n";
+	const EVENT_SELECT_OPTION = "<option value\"%name%\" data-marttiphpbb-showphpbbevents-title=\"%title%\" data-marttiphpbb-showphpbbevents-link=\"%link%\">[ %name% ]</option>\n";
 	const EVENT_HEAD_COMMENT = "{# Rendering of the head events is delayed until the first event in the body #}\n";
 	const EVENT_LISTENER_COMMENT = "{# This file was generated with the ext-showphpbbevents:generate command. #}\n";
 	const PHP_EVENTS = <<<'EOT'
@@ -80,6 +81,7 @@ EOT;
 		$render_php_events = $data['last_in_body'] ?? false;
 		$include_js = $data['last_in_body'] ?? false;
 		$include_css = $data['include_css'] ?? false;
+		$is_select_option = $data['is_select_option'] ?? false;
 		$since = $data['since'] ?? '';
 		$loc = $data['loc'] ?? [];
 		$delayed_head_events = [];
@@ -97,7 +99,7 @@ EOT;
 			$since, $in_head,
 			$delayed_head_events, $include_css,
 			$render_button, $render_php_events,
-			$include_js
+			$include_js, $is_select_option
 		);
 
 		return self::EVENT_LISTENER_COMMENT . $content;
@@ -113,7 +115,8 @@ EOT;
 		bool $include_css = false,
 		bool $render_button = false,
 		bool $render_php_events = false,
-		bool $include_js):string
+		bool $include_js = false,
+		bool $is_select_option = false):string
 	{
 		$str = $include_css ? self::INCLUDECSS : '';
 
@@ -134,11 +137,11 @@ EOT;
 		{
 			foreach($delayed_head_events as $head_event_name => $ary)
 			{
-				$content .= self::get_template_event($type, $head_event_name, $ary['loc'], $ary['since'], true);
+				$content .= self::get_template_event($type, $head_event_name, $ary['loc'], $ary['since'], true, false);
 			}
 		}
 
-		$content .= self::get_template_event($type, $name, $loc, $since);
+		$content .= self::get_template_event($type, $name, $loc, $since, false, $is_select_option);
 
 		if ($render_php_events)
 		{
@@ -158,14 +161,15 @@ EOT;
 		string $name,
 		array $loc,
 		string $since,
-		bool $is_head_event = false):string
+		bool $is_head_event = false,
+		bool $is_select_option = false):string
 	{
 		reset($loc);
 
 		if (count($loc) === 1)
 		{
 			$link = key($loc);
-			return self::get_template_event_link($type, $name, $loc, $link, $since, $is_head_event);
+			return self::get_template_event_link($type, $name, $loc, $link, $since, $is_head_event, $is_select_option);
 		}
 
 		$str = '';
@@ -174,7 +178,7 @@ EOT;
 		{
 			list($script_name) = explode('_', $file);
 
-			$content = self::get_template_event_link($type, $name, $loc, $file, $since, $is_head_event);
+			$content = self::get_template_event_link($type, $name, $loc, $file, $since, $is_head_event, $is_select_option);
 
 			$search = ['%script_name%', '%content%'];
 			$replace = [$script_name, $content];
@@ -191,7 +195,8 @@ EOT;
 		array $loc,
 		string $link,
 		string $since,
-		bool $is_head_event = false):string
+		bool $is_head_event = false,
+		bool $is_select_option = false):string
 	{
 		$files = array_keys($loc);
 
@@ -221,6 +226,8 @@ EOT;
 		// because the title attribute inside '.breadcrumbs a' gets replaced
 		// by some Javascript in prosilver, it's moved to a <span>
 		$template = strpos($name, 'breadcrumb_') === false ? self::EVENT_LINK : self::EVENT_LINK_TITLE_SPAN;
+
+		$template = $is_select_option ? self::EVENT_SELECT_OPTION : $template;
 
 		return str_replace($search, $replace, $template);
 	}
