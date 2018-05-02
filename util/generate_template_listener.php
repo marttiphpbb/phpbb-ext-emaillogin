@@ -17,8 +17,16 @@ class generate_template_listener
 	const INCLUDEJS = "{%- INCLUDEJS '@marttiphpbb_showphpbbevents/js/showphpbbevents.js' -%}\n";
 	const ENABLE = "{%- if marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
 	const DISABLE = "{%- if not marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
-	const BUTTON_HIDE = "<a class=\"showphpbbevents-hide\" href=\"{{- marttiphpbb_showphpbbevents.u_hide -}}\">{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_HIDE') -}}</a>\n";
-	const BUTTON_SHOW = "<a class=\"showphpbbevents-show\" href=\"{{- marttiphpbb_showphpbbevents.u_show -}}\">{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SHOW') -}}</a>\n";
+	const BUTTON_HIDE = <<<'EOT'
+<a class="showphpbbevents-hide" href="{{- marttiphpbb_showphpbbevents.u_hide -}}" title="{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_HIDE_EXPLAIN') -}}">
+	{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_HIDE') -}}
+</a>
+EOT;
+	const BUTTON_SHOW = <<<'EOT'
+<a class="showphpbbevents-show" href="{{- marttiphpbb_showphpbbevents.u_show -}}" title="{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SHOW_EXPLAIN') -}}">
+	{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SHOW') -}}
+</a>
+EOT;
 	const SCRIPT_NAME_CONDITION = "{%- if SCRIPT_NAME == '%script_name%' -%}\n%content%{%- endif -%}\n";
 	const TITLE_NEWLINE = '&#10;';
 	const THIS_FILE_INDICATOR = '*';

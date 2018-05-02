@@ -14,7 +14,7 @@ a.showphpbbevents
     background-color: black;    
 }
 
-a.showphpbbevents-head
+a.showphpbbevents-head, a.showphpbbevents-select
 {
 	background-color: darkgrey;
 }
