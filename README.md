@@ -48,4 +48,4 @@ You can install this on the latest release of phpBB 3.2 by following the steps b
 
 ## Link to phpBB on Github
 
-![Github link](/doc/code.php)
+![Github link](/doc/code.png)
