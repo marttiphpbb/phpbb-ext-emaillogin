@@ -17,8 +17,8 @@ class generate_template_listener
 	const INCLUDEJS = "{%- INCLUDEJS '@marttiphpbb_showphpbbevents/js/showphpbbevents.js' -%}\n";
 	const ENABLE = "{%- if marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
 	const DISABLE = "{%- if not marttiphpbb_showphpbbevents.enable -%}\n%content%{%- endif -%}\n";
-	const BUTTON_HIDE = "<a class=\"showphpbbevents-hide\" href=\"{{- marttiphpbb_showphpbbevents.u_hide -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_HIDE') -}}</a>\n";
-	const BUTTON_SHOW = "<a class=\"showphpbbevents-show\" href=\"{{- marttiphpbb_showphpbbevents.u_show -}}\">{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SHOW') -}}</a>\n";
+	const BUTTON_HIDE = "<a class=\"showphpbbevents-hide\" href=\"{{- marttiphpbb_showphpbbevents.u_hide -}}\">{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_HIDE') -}}</a>\n";
+	const BUTTON_SHOW = "<a class=\"showphpbbevents-show\" href=\"{{- marttiphpbb_showphpbbevents.u_show -}}\">{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SHOW') -}}</a>\n";
 	const SCRIPT_NAME_CONDITION = "{%- if SCRIPT_NAME == '%script_name%' -%}\n%content%{%- endif -%}\n";
 	const TITLE_NEWLINE = '&#10;';
 	const THIS_FILE_INDICATOR = '*';
@@ -33,10 +33,10 @@ class generate_template_listener
 <table class="marttiphpbb-showphpbbevents-php">
 	<thead>
 		<tr>
-			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_NAME') -}}</th>
-			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_PHP_EVENT_COUNT') -}}</th>
-			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_SINCE') -}}</th>
-			<th>{{- lang('MARTTIPHPBB_TEMPLATEEVENTS_FILENAME') -}}</th>	
+			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_PHP_EVENT_NAME') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_PHP_EVENT_COUNT') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_SINCE') -}}</th>
+			<th>{{- lang('MARTTIPHPBB_SHOWPHPBBEVENTS_FILENAME') -}}</th>	
 		</tr>
 	</thead>
 	<tbody>
