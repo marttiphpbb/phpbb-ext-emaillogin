@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'MARTTIPHPBB_EMAILLOGIN_ERROR_NO_EMAIL'
-		=> 'The email address is required to login.',
+		=> 'You need to specify an email in order to login.',
 	'MARTTIPHPBB_EMAILLOGIN_ERROR_NO_USERNAME_OR_EMAIL'
 		=> 'You need to specify a username or email 
 			in order to login.',

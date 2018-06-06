@@ -1,10 +1,17 @@
 # phpBB Extension - marttiphpbb Email Login
 
-**This extension is a helper tool for developing (other extenstions and styles). It should not be used on a live forum.**
+This phpBB extension provides 2 authentication providers, which are extended from the basic database provider:
 
-**This extension was formerly called "Template Events", but since it shows now also the PHP events it has been renamed.**
+* Db_email: To login with email and password.
+* Db_username_or_email: To login with username or email and password.
 
-This phpBB extension for developers shows all core phpBB template and PHP events in the board. The template events are rendered at their location as black labels. The PHP events triggered on the page are shown at the bottom in order of occurance. All template and PHP events are linked to their location in the [phpBB github repository](https://github.com/phpbb/phpbb) so their context can be easily reviewed.
+Only users with a unique email address in the database will be able to login. It is recommanded to check beforehand if all email addresses are unique. When you left the configuration option "Allow email address re-use" in the ACP (General > Board configuration > User registration settings) to the default "false" in your board, this will be the case.
+
+You should also check if any usernames that are in the form of a email address, that email address corresponds to the email address of that user.
+
+The provider Db_username_or_email checks first if the input is in the form of a valid email address. If that is the case, the user is identified by the email address.
+
+When the extension is activated, the "Password reset" page will only ask for the email address and no longer for the username.
 
 ## Requirements
 
@@ -18,6 +25,7 @@ You can install this on the latest release of phpBB 3.2 by following the steps b
 * Create `marttiphpbb/emaillogin` in the `ext` directory.
 * Download and unpack the repository into `ext/marttiphpbb/emaillogin`
 * Enable `Email Login` in the ACP at `Customise -> Manage extensions`.
+* Chose one of the providers Db_email or Db_username_or_email in the ACP. (General Client Communication > Authenication)
 
 ## Uninstall
 
@@ -34,6 +42,4 @@ You can install this on the latest release of phpBB 3.2 by following the steps b
 
 ## Screenshots
 
-### Template Events
-
-![Template Events](/doc/template_events.png)
+![Email login](/doc/email_login.png)
