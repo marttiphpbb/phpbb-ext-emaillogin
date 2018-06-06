@@ -1,74 +1,37 @@
 services:
+    auth.provider.db_email:
+        class: marttiphpbb\emaillogin\auth\email
+        arguments:
+            - '@dbal.conn'
+            - '@config'
+            - '@passwords.manager'
+            - '@request'
+            - '@user'
+            - '@service_container'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: auth.provider }
+
+    auth.provider.db_username_or_email:
+        class: marttiphpbb\emaillogin\auth\username_or_email
+        arguments:
+            - '@dbal.conn'
+            - '@config'
+            - '@passwords.manager'
+            - '@request'
+            - '@user'
+            - '@service_container'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: auth.provider }
+
     marttiphpbb.emaillogin.listener:
         class: marttiphpbb\emaillogin\event\listener
         arguments:
             - '@request'
             - '@user'
-            - '@marttiphpbb.emaillogin.service.events_cache'
-            - '@marttiphpbb.emaillogin.php_event_listener'
+            - '@language'
         tags:
             - { name: event.listener }
-
-    marttiphpbb.emaillogin.php_event_listener:
-        class: marttiphpbb\emaillogin\event\php_event_listener
-        tags:
-            - { name: event.listener }
-
-    marttiphpbb.emaillogin.service.events_cache:
-        class: marttiphpbb\emaillogin\service\events_cache
-        arguments:
-            - '@cache.driver'
-            - '@marttiphpbb.emaillogin.service.events_store'
-
-    marttiphpbb.emaillogin.service.events_store:
-        class: marttiphpbb\emaillogin\service\events_store
-
-    marttiphpbb.emaillogin.console.scrape:
-        class: marttiphpbb\emaillogin\console\scrape
-        arguments:
-            - '@user'
-            - '@marttiphpbb.emaillogin.service.events_cache'
-        tags:
-            - { name: console.command }
-
-    marttiphpbb.emaillogin.console.extract:
-        class: marttiphpbb\emaillogin\console\extract
-        arguments:
-            - '@user'
-            - '@marttiphpbb.emaillogin.service.events_cache'
-        tags:
-            - { name: console.command }
-
-    marttiphpbb.emaillogin.console.verify:
-        class: marttiphpbb\emaillogin\console\verify
-        arguments:
-            - '@user'
-            - '@marttiphpbb.emaillogin.service.events_cache'
-        tags:
-            - { name: console.command }
-
-    marttiphpbb.emaillogin.console.generate:
-        class: marttiphpbb\emaillogin\console\generate
-        arguments:
-            - '@user'
-            - '@marttiphpbb.emaillogin.service.events_store'
-        tags:
-            - { name: console.command }
-
-    marttiphpbb.emaillogin.console.write:
-        class: marttiphpbb\emaillogin\console\write
-        arguments:
-            - '@user'
-            - '@marttiphpbb.emaillogin.service.events_cache'
-            - '@marttiphpbb.emaillogin.service.events_store'
-        tags:
-            - { name: console.command }
-
-    marttiphpbb.emaillogin.console.show:
-        class: marttiphpbb\emaillogin\console\show
-        arguments:
-            - '@user'
-            - '@marttiphpbb.emaillogin.service.events_cache'
-            - '@marttiphpbb.emaillogin.service.events_store'
-        tags:
-            - { name: console.command }

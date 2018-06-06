@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "phpBB 3.2 extension to provide login with email",
 	"homepage": "https://github.com/marttiphpbb/phpbb-ext-emaillogin",
-	"version": "1.6.0",
+	"version": "0.1.0",
 	"time": "2018-05-02",
 	"keywords": ["phpbb", "extension", "email", "login"],
 	"license": "GPL-2.0",
