@@ -11,12 +11,16 @@ You should also check if any usernames that are in the form of a email address, 
 
 The provider Db_username_or_email checks first if the input is in the form of a valid email address. If that is the case, the user is identified by the email address.
 
-When the extension is activated, the "Password reset" page will only ask for the email address and no longer for the username.
+Access to the ACP remains with username and password combination.
 
 ## Requirements
 
 * phpBB 3.2.x
 * PHP 7+
+
+## To do
+
+Add console command to check for uniqueness of email addresses.
 
 ## Quick Install
 
@@ -42,4 +46,14 @@ You can install this on the latest release of phpBB 3.2 by following the steps b
 
 ## Screenshots
 
-![Email login](/doc/email_login.png)
+### Username or email login (Authentication provider Db_username_or_email)
+
+![Quick login](doc/username_quick.png)
+
+![Login box](doc/username_box.png)
+
+### Email login (Authentication provider Db_email)
+
+![Quick login](doc/email_quick.png)
+
+![Login box](doc/email_box.png)

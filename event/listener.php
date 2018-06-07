@@ -59,8 +59,6 @@ class listener implements EventSubscriberInterface
 			'core.index_modify_page_title' => 'core_index_modify_page_title',
 			'core.login_box_before'	=> 'core_login_box_before',
 			'core.login_box_failed'	=> 'core_login_box_failed',
-			'core.twig_environment_render_template_before'
-				=> 'core_twig_environment_render_template_before',
 		];
 	}
 
@@ -75,7 +73,6 @@ class listener implements EventSubscriberInterface
 		}
 	
 		$this->language->add_lang('error', 'marttiphpbb/emaillogin');
-		error_log('hey login page');
 
 		$this->login_input_page();
 	}
@@ -114,7 +111,6 @@ class listener implements EventSubscriberInterface
 		]);
 	}
 
-
 	public function core_login_box_failed(event $event)
 	{
 		$err = $event['err'];
@@ -125,12 +121,5 @@ class listener implements EventSubscriberInterface
 			$err = vsprintf($err, $result['marttiphpbb_emaillogin_err_sprintf']);
 			$event['err'] = $err;
 		}
-	}
-
-	public function core_twig_environment_render_template_before(event $event)
-	{
-		$context = $event['context'];
-
-		$event['context'] = $context;
 	}
 }
