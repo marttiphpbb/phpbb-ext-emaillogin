@@ -10,8 +10,10 @@ namespace marttiphpbb\emaillogin\event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use phpbb\event\data as event;
 use phpbb\request\request;
+use phpbb\template\template;
 use phpbb\language\language;
 use phpbb\user;
+use phpbb\config\config;
 
 class listener implements EventSubscriberInterface
 {
@@ -21,8 +23,17 @@ class listener implements EventSubscriberInterface
 	/** @var user */
 	protected $user;
 
+	/** @var template */
+	protected $template;
+
 	/** @var language */
 	protected $language;
+
+	/** @var config */
+	protected $config;
+
+	/** @var bool */
+	protected $admin;
 
 	/**
 	 * @param request $request
@@ -30,12 +41,16 @@ class listener implements EventSubscriberInterface
 	public function __construct(
 		request $request,
 		user $user,
-		language $language
+		template $template,
+		language $language,
+		config $config
 	)
 	{
 		$this->request = $request;
 		$this->user = $user;
+		$this->template = $template;
 		$this->language = $language;
+		$this->config = $config;
 	}
 
 	static public function getSubscribedEvents()
@@ -44,19 +59,61 @@ class listener implements EventSubscriberInterface
 			'core.index_modify_page_title' => 'core_index_modify_page_title',
 			'core.login_box_before'	=> 'core_login_box_before',
 			'core.login_box_failed'	=> 'core_login_box_failed',
+			'core.twig_environment_render_template_before'
+				=> 'core_twig_environment_render_template_before',
 		];
 	}
 
 	public function core_login_box_before(event $event)
 	{
-		$this->language->add_lang('login', 'marttiphpbb/emaillogin');
+		$admin = $event['admin'];
+
+		if ($admin)
+		{
+			$this->admin = true;
+			return;
+		}
+	
 		$this->language->add_lang('error', 'marttiphpbb/emaillogin');
+		error_log('hey login page');
+
+		$this->login_input_page();
+	}
+
+	public function is_admin_login()
+	{
+		return $this->admin;
 	}
 
 	public function core_index_modify_page_title(event $event)
 	{
-		$this->language->add_lang('login', 'marttiphpbb/emaillogin');
+		if ($this->user->data['user_id'] != ANONYMOUS)
+		{
+			return;
+		}
+
+		$this->login_input_page();
 	}
+
+	protected function login_input_page()
+	{
+		$auth_method = $this->config['auth_method'];
+
+		if (!in_array($auth_method, ['db_username_or_email', 'db_email']))
+		{
+			return;
+		}
+
+		error_log($auth_method);
+
+		$this->language->add_lang('login', 'marttiphpbb/emaillogin');
+
+		$this->template->assign_vars([
+			'PROVIDER_TEMPLATE_FILE'		=> '@marttiphpbb_emaillogin/loginbox.html',
+			'MARTTIPHPBB_EMAILLOGIN_AUTH' 	=> $auth_method,
+		]);
+	}
+
 
 	public function core_login_box_failed(event $event)
 	{
@@ -68,5 +125,12 @@ class listener implements EventSubscriberInterface
 			$err = vsprintf($err, $result['marttiphpbb_emaillogin_err_sprintf']);
 			$event['err'] = $err;
 		}
+	}
+
+	public function core_twig_environment_render_template_before(event $event)
+	{
+		$context = $event['context'];
+
+		$event['context'] = $context;
 	}
 }

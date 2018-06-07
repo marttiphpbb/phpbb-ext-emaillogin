@@ -17,5 +17,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'MARTTIPHPBB_EMAILLOGIN_EMAIL'	=> 'Email',
+	'MARTTIPHPBB_EMAILLOGIN_EMAIL'				=> 'Email',
+	'MARTTIPHPBB_EMAILLOGIN_USERNAME_OR_EMAIL'	=> 'Username or Email',
 ]);

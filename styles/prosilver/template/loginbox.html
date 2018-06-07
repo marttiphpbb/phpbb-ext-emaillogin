@@ -1,0 +1,10 @@
+{%- INCLUDEJS '@marttiphpbb_emaillogin/js/loginbox.js' -%}
+
+<span class="hidden" id="marttiphpbb_emaillogin" data-auth-method="{{- MARTTIPHPBB_EMAILLOGIN_AUTH -}}">
+    {%- if MARTTIPHPBB_EMAILLOGIN_AUTH == 'db_email' -%}    
+        {{- lang('MARTTIPHPBB_EMAILLOGIN_EMAIL') -}}
+    {%- else -%}
+        {{- lang('MARTTIPHPBB_EMAILLOGIN_USERNAME_OR_EMAIL') -}}
+    {%- endif -%}
+    {{- lang('COLON') -}}
+</span>

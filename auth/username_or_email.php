@@ -13,6 +13,13 @@ class username_or_email extends base
 {
 	public function login($username_or_email, $password)
 	{
+		$listener = $this->phpbb_container->get('marttiphpbb.emaillogin.listener');
+
+		if ($listener->is_admin_login())
+		{
+			return parent::login($username_or_email, $password);
+		}
+
         if (!$username_or_email)
         {
 			error_log('no username or email');

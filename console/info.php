@@ -15,11 +15,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use phpbb\console\command\command;
 use phpbb\user;
+use phpbb\db\driver\factory as db;
 
-class show extends command
+class info extends command
 {
-	public function __construct(user $user)
+	/** @var db */
+	protected $db;
+
+	public function __construct(user $user, db $db)
 	{
+		$this->db = $db;
 		parent::__construct($user);
 	}
 
@@ -27,9 +32,9 @@ class show extends command
 	{
 		$this
 			->setName('ext-emaillogin:info')
-			->setDescription('Shows duplicate email addresses of users.')
-			->setHelp('Shows duplicate email addresses of users: .')
-			->addOption('number', 'n', InputOption::VALUE_NONE, 'Maximum number of duplicate emails shown (defaults to 50).')
+			->setDescription('show conflicting user email and username information.')
+			->setHelp('Shows duplicate emails and non matching email-usernames of users.')
+			->addOption('number', 'n', InputOption::VALUE_OPTIONAL, 'Maximum number of results shown (defaults to 50).', 50)
 		;
 	}
 
