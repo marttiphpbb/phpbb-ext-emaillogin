@@ -9,7 +9,6 @@ namespace marttiphpbb\emaillogin\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use phpbb\event\data as event;
-use phpbb\request\request;
 use phpbb\template\template;
 use phpbb\language\language;
 use phpbb\user;
@@ -17,9 +16,6 @@ use phpbb\config\config;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var request */
-	protected $request;
-
 	/** @var user */
 	protected $user;
 
@@ -39,14 +35,12 @@ class listener implements EventSubscriberInterface
 	 * @param request $request
 	*/
 	public function __construct(
-		request $request,
 		user $user,
 		template $template,
 		language $language,
 		config $config
 	)
 	{
-		$this->request = $request;
 		$this->user = $user;
 		$this->template = $template;
 		$this->language = $language;

@@ -30,7 +30,6 @@ services:
     marttiphpbb.emaillogin.listener:
         class: marttiphpbb\emaillogin\event\listener
         arguments:
-            - '@request'
             - '@user'
             - '@template'
             - '@language'
