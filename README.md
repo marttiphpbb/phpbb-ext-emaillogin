@@ -1,13 +1,13 @@
 # phpBB Extension - marttiphpbb Email Login
 
+[Topic on phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2474801)
+
 This phpBB extension provides 2 authentication providers, which are extended from the basic database provider:
 
 * Db_email: To login with email and password.
 * Db_username_or_email: To login with username or email and password.
 
 Only users with a unique email address in the database will be able to login. It is recommanded to check beforehand if all email addresses are unique. When you left the configuration option "Allow email address re-use" in the ACP (General > Board configuration > User registration settings) to the default "false" in your board, this will be the case.
-
-You should also check if any usernames that are in the form of a email address, that email address corresponds to the email address of that user.
 
 The provider Db_username_or_email checks first if the input is in the form of a valid email address. If that is the case, the user is identified by the email address.
 
