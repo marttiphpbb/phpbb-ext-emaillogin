@@ -16,24 +16,12 @@ use phpbb\config\config;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var user */
 	protected $user;
-
-	/** @var template */
 	protected $template;
-
-	/** @var language */
 	protected $language;
-
-	/** @var config */
 	protected $config;
-
-	/** @var bool */
 	protected $admin;
 
-	/**
-	 * @param request $request
-	*/
 	public function __construct(
 		user $user,
 		template $template,
@@ -65,7 +53,7 @@ class listener implements EventSubscriberInterface
 			$this->admin = true;
 			return;
 		}
-	
+
 		$this->language->add_lang('error', 'marttiphpbb/emaillogin');
 
 		$this->login_input_page();
