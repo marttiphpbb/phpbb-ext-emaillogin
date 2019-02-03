@@ -22,8 +22,6 @@ class username_or_email extends base
 
         if (!$username_or_email)
         {
-			error_log('no username or email');
-
             return [
 				'status'	=> LOGIN_ERROR_USERNAME,
 				'error_msg'	=> 'MARTTIPHPBB_EMAILLOGIN_ERROR_NO_USERNAME_OR_EMAIL',
@@ -35,7 +33,7 @@ class username_or_email extends base
         {
 			return parent::login_by_email($username_or_email, $password);
 		}
-		
+
 		return parent::login($username_or_email, $password);
 	}
 }

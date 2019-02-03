@@ -16,7 +16,7 @@ class base extends db_provider
 		$count = 0;
 
 		$sql = 'select username
-			from ' . USERS_TABLE . ' 
+			from ' . USERS_TABLE . '
 			where user_email_hash = ' . phpbb_email_hash($email);
 
 		$result = $this->db->sql_query($sql);
@@ -31,40 +31,34 @@ class base extends db_provider
 
 		if (!$count)
 		{
-			error_log('no email for user');
-
 			return [
 				'status'	=> LOGIN_ERROR_USERNAME,
 				'error_msg'	=> 'MARTTIPHPBB_EMAILLOGIN_LOGIN_ERROR_EMAIL',
 				'user_row'	=> ['user_id' => ANONYMOUS],
-				'marttiphpbb_emaillogin_err_sprintf' 
-					=> $this->get_email_err_sprintf_args($email),				
+				'marttiphpbb_emaillogin_err_sprintf'
+					=> $this->get_email_err_sprintf_args($email),
 			];
 		}
 
 		if ($count > 1)
 		{
-			error_log('duplicate email for user');
-
 			return [
 				'status'	=> LOGIN_ERROR_USERNAME,
-				'error_msg'	=> 'MARTTIPHPBB_EMAILLOGIN_ERROR_EMAIL_DUPLICATE',	
+				'error_msg'	=> 'MARTTIPHPBB_EMAILLOGIN_ERROR_EMAIL_DUPLICATE',
 				'user_row'	=> ['user_id' => ANONYMOUS],
-				'marttiphpbb_emaillogin_err_sprintf' 
+				'marttiphpbb_emaillogin_err_sprintf'
 					=> $this->get_email_err_sprintf_args($email),
 			];
 		}
-
-		error_log('base login: ' . $username);
 
         return parent::login($username, $password);
 	}
 
 	protected function get_email_err_sprintf_args(string $email):array
 	{
-		return [ 
-			$email, 
-			'<a href="' . append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, 'mode=contactadmin') . '">', 
+		return [
+			$email,
+			'<a href="' . append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, 'mode=contactadmin') . '">',
 			'</a>',
 		];
 	}

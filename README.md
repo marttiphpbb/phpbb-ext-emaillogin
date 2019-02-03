@@ -15,8 +15,8 @@ Access to the ACP remains with username and password combination.
 
 ## Requirements
 
-* phpBB 3.2.x
-* PHP 7+
+* phpBB 3.2.5+
+* PHP 7.1+
 
 ## To do
 

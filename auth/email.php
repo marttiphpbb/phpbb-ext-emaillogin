@@ -22,8 +22,6 @@ class email extends base
 
         if (!$email)
         {
-			error_log('no email');
-	
             return [
 				'status'	=> LOGIN_ERROR_USERNAME,
 				'error_msg'	=> 'MARTTIPHPBB_EMAILLOGIN_ERROR_NO_EMAIL',
@@ -33,17 +31,15 @@ class email extends base
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
-			error_log('no valid email: ' . $email);
-
             return [
 				'status'	=> LOGIN_ERROR_USERNAME,
 				'error_msg'	=> 'MARTTIPHPBB_EMAILLOGIN_ERROR_NO_VALID_EMAIL',
 				'user_row'	=> ['user_id' => ANONYMOUS],
-				'marttiphpbb_emaillogin_err_sprintf' 
+				'marttiphpbb_emaillogin_err_sprintf'
 					=> $this->get_email_err_sprintf_args($email),
             ];
 		}
-		
+
 		return parent::login_by_email($email, $password);
 	}
 }

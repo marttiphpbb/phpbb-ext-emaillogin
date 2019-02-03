@@ -20,7 +20,7 @@ class listener implements EventSubscriberInterface
 	protected $template;
 	protected $language;
 	protected $config;
-	protected $admin;
+	protected $is_admin_login = false;
 
 	public function __construct(
 		user $user,
@@ -44,13 +44,13 @@ class listener implements EventSubscriberInterface
 		];
 	}
 
-	public function core_login_box_before(event $event)
+	public function core_login_box_before(event $event):void
 	{
 		$admin = $event['admin'];
 
 		if ($admin)
 		{
-			$this->admin = true;
+			$this->is_admin_login = true;
 			return;
 		}
 
@@ -59,12 +59,12 @@ class listener implements EventSubscriberInterface
 		$this->login_input_page();
 	}
 
-	public function is_admin_login()
+	public function is_admin_login():bool
 	{
-		return $this->admin;
+		return $this->is_admin_login;
 	}
 
-	public function core_index_modify_page_title(event $event)
+	public function core_index_modify_page_title(event $event):void
 	{
 		if ($this->user->data['user_id'] != ANONYMOUS)
 		{
@@ -74,7 +74,7 @@ class listener implements EventSubscriberInterface
 		$this->login_input_page();
 	}
 
-	protected function login_input_page()
+	protected function login_input_page():void
 	{
 		$auth_method = $this->config['auth_method'];
 
@@ -82,8 +82,6 @@ class listener implements EventSubscriberInterface
 		{
 			return;
 		}
-
-		error_log($auth_method);
 
 		$this->language->add_lang('login', 'marttiphpbb/emaillogin');
 
@@ -93,7 +91,7 @@ class listener implements EventSubscriberInterface
 		]);
 	}
 
-	public function core_login_box_failed(event $event)
+	public function core_login_box_failed(event $event):void
 	{
 		$err = $event['err'];
 		$result = $event['result'];
