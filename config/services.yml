@@ -36,11 +36,3 @@ services:
             - '@config'
         tags:
             - { name: event.listener }
-
-    marttiphpbb.emaillogin.console.info:
-        class: marttiphpbb\emaillogin\console\info
-        arguments:   
-            - '@user'
-            - '@dbal.conn'
-        tags:
-            - { name: console.command }            

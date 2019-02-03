@@ -38,9 +38,9 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.index_modify_page_title' => 'core_index_modify_page_title',
-			'core.login_box_before'	=> 'core_login_box_before',
-			'core.login_box_failed'	=> 'core_login_box_failed',
+			'core.index_modify_page_title'	=> 'core_index_modify_page_title',
+			'core.login_box_before'			=> 'core_login_box_before',
+			'core.login_box_failed'			=> 'core_login_box_failed',
 		];
 	}
 

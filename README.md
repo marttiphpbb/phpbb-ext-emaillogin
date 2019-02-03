@@ -18,10 +18,6 @@ Access to the ACP remains with username and password combination.
 * phpBB 3.2.5+
 * PHP 7.1+
 
-## To do
-
-Add console command to check for uniqueness of email addresses.
-
 ## Quick Install
 
 You can install this on the latest release of phpBB 3.2 by following the steps below:
