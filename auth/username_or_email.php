@@ -1,7 +1,7 @@
 <?php
 /**
 * phpBB Extension - marttiphpbb emaillogin
-* @copyright (c) 2018 - 2019 marttiphpbb <info@martti.be>
+* @copyright (c) 2018 - 2020 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
