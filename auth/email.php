@@ -13,9 +13,7 @@ class email extends base
 {
 	public function login($email, $password)
 	{
-		$listener = $this->phpbb_container->get('marttiphpbb.emaillogin.listener');
-
-		if ($listener->is_admin_login())
+		if ($this->listener->is_admin_login())
 		{
 			return parent::login($email, $password);
 		}

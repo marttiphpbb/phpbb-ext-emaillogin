@@ -8,17 +8,50 @@
 namespace marttiphpbb\emaillogin\auth;
 
 use phpbb\auth\provider\db as db_provider;
+use phpbb\captcha\factory;
+use phpbb\config\config;
+use phpbb\db\driver\driver_interface;
+use phpbb\passwords\manager;
+use phpbb\request\request_interface;
+use phpbb\user;
+use marttiphpbb\emaillogin\event\listener;
 
 class base extends db_provider
 {
+	protected $listener;
+
+	public function __construct(
+		factory $captcha_factory,
+		config $config,
+		driver_interface $db,
+		manager $passwords_manager,
+		request_interface $request,
+		user $user,
+		string $phpbb_root_path,
+		string $php_ext,
+		listener $listener
+	)
+	{
+		parent::__construct(
+			$captcha_factory,
+			$config, $db,
+			$passwords_manager,
+			$request,
+			$user,
+			$phpbb_root_path,
+			$php_ext
+		);
+
+		$this->listener = $listener;
+	}
+
 	protected function login_by_email(string $email, string $password):array
 	{
 		$count = 0;
 
 		$sql = 'select username
 			from ' . USERS_TABLE . '
-			where user_email_hash = ' . phpbb_email_hash($email);
-
+			where user_email = \'' . $this->db->sql_escape($email) . '\'';
 		$result = $this->db->sql_query($sql);
 
 		while($field = $this->db->sql_fetchfield('username'))

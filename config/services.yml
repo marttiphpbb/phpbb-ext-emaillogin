@@ -2,28 +2,30 @@ services:
     auth.provider.db_email:
         class: marttiphpbb\emaillogin\auth\email
         arguments:
-            - '@dbal.conn'
+            - '@captcha.factory'
             - '@config'
+            - '@dbal.conn'
             - '@passwords.manager'
             - '@request'
             - '@user'
-            - '@service_container'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '@marttiphpbb.emaillogin.listener'
         tags:
             - { name: auth.provider }
 
     auth.provider.db_username_or_email:
         class: marttiphpbb\emaillogin\auth\username_or_email
         arguments:
-            - '@dbal.conn'
+            - '@captcha.factory'
             - '@config'
+            - '@dbal.conn'
             - '@passwords.manager'
             - '@request'
             - '@user'
-            - '@service_container'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '@marttiphpbb.emaillogin.listener'
         tags:
             - { name: auth.provider }
 
