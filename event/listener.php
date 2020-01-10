@@ -35,7 +35,7 @@ class listener implements EventSubscriberInterface
 		$this->config = $config;
 	}
 
-	static public function getSubscribedEvents()
+	static public function getSubscribedEvents():array
 	{
 		return [
 			'core.index_modify_page_title'	=> 'core_index_modify_page_title',
