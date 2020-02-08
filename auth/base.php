@@ -49,6 +49,8 @@ class base extends db_provider
 	{
 		$count = 0;
 
+		$email = strtolower($email);
+
 		$sql = 'select username
 			from ' . USERS_TABLE . '
 			where user_email = \'' . $this->db->sql_escape($email) . '\'';
