@@ -3,10 +3,10 @@
 	"type": "phpbb-extension",
 	"description": "phpBB 3.3 extension to provide login with email",
 	"homepage": "https://github.com/marttiphpbb/phpbb-ext-emaillogin",
-	"version": "0.3.0",
-	"time": "2020-01-10",
+	"version": "0.4.0",
+	"time": "2020-02-08",
 	"keywords": ["phpbb", "extension", "email", "login"],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-only",
 	"authors": [{
 			"name": "martti",
 			"email": "phpbb@martti.be",
