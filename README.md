@@ -4,8 +4,8 @@
 
 This phpBB extension provides 2 authentication providers, which are extended from the basic database provider:
 
-* Db_email: To login with email and password.
-* Db_username_or_email: To login with username or email and password.
+* `Db_email`: To login with email and password.
+* `Db_username_or_email`: To login with username or email and password.
 
 Only users with a unique email address in the database will be able to login. It is recommanded to check beforehand if all email addresses are unique. When you left the configuration option "Allow email address re-use" in the ACP (General > Board configuration > User registration settings) to the default "false" in your board, this will be the case.
 
@@ -20,7 +20,7 @@ Access to the ACP remains with username and password combination.
 
 ## Quick Install
 
-You can install this on the latest release of phpBB 3.2 by following the steps below:
+You can install this on the latest release of phpBB by following the steps below:
 
 * Create `marttiphpbb/emaillogin` in the `ext` directory.
 * Download and unpack the repository into `ext/marttiphpbb/emaillogin`
